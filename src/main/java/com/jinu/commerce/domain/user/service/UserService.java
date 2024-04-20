@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
     ResponseEntity<ResponseBodyDto> signUpUser(UserRequestDto requestDto);
 
-    ResponseEntity<ResponseBodyDto> sendVerifyMailForJoin(UserRequestDto requestDto);
+    ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(UserRequestDto requestDto);
 
-    void checkDuplicateByMail(String mail);
+    void checkDuplicateByEmail(String mail);
 
     int createVerifyCode();
 }

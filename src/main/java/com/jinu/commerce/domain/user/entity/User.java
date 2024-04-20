@@ -14,10 +14,10 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userNo;
+    private Long userId;
 
     @Column(nullable = false)
-    private String mail;
+    private String email;
 
     @JsonIgnore
     @Column(nullable = false)
@@ -34,8 +34,8 @@ public class User {
 
 
     @Builder
-    public User(String mail, String password, String name, String mobile, String address) {
-        this.mail = mail;
+    public User(String email, String password, String name, String mobile, String address) {
+        this.email = email;
         this.password = password;
         this.name = name;
         this.mobile = mobile;

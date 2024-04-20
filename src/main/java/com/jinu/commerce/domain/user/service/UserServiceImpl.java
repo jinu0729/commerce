@@ -1,6 +1,6 @@
 package com.jinu.commerce.domain.user.service;
 
-import com.jinu.commerce.domain.mail.service.MailService;
+import com.jinu.commerce.domain.email.service.EmailService;
 import com.jinu.commerce.domain.user.dto.request.UserRequestDto;
 import com.jinu.commerce.domain.user.entity.User;
 import com.jinu.commerce.domain.user.repository.UserRepository;
@@ -10,6 +10,7 @@ import com.jinu.commerce.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,18 +22,19 @@ import java.util.Random;
 public class UserServiceImpl implements UserService {
     private final ResponseBodyDto bodyDto;
     private final UserRepository repository;
-    private final MailService mailService;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ResponseEntity<ResponseBodyDto> sendVerifyMailForJoin(UserRequestDto requestDto) {
-        log.info("start sendVerifyMailForJoin");
+    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(UserRequestDto requestDto) {
+        log.info("start sendVerifyEmailForJoin");
 
-        this.checkDuplicateByMail(requestDto.getMail());
+        this.checkDuplicateByEmail(requestDto.getEmail());
 
         String title = "[e-commerce] 회원가입을 위한 이메일 인증";
         String content = "인증번호 : " + this.createVerifyCode();
 
-        mailService.sendMail(requestDto.getMail(), title, content);
+        emailService.sendEmail(requestDto.getEmail(), title, content);
 
         return ResponseEntity.ok(bodyDto.success("mail 발송 완료"));
     }
@@ -42,11 +44,11 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseBodyDto> signUpUser(UserRequestDto requestDto) {
         log.info("start signUpUser");
 
-        this.checkDuplicateByMail(requestDto.getMail());
+        this.checkDuplicateByEmail(requestDto.getEmail());
 
         User user = User.builder()
-                .mail(requestDto.getMail())
-                .password(requestDto.getPassword())
+                .email(requestDto.getEmail())
+                .password(passwordEncoder.encode(requestDto.getPassword()))
                 .name(requestDto.getName())
                 .mobile(requestDto.getMobile())
                 .address(requestDto.getAddress())
@@ -59,8 +61,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public void checkDuplicateByMail(String mail) {
-        if (repository.existsByMail(mail)) {
+    public void checkDuplicateByEmail(String mail) {
+        if (repository.existsByEmail(mail)) {
             throw new CustomException(ErrorCode.DUPLICATE_MAIL);
         }
     }

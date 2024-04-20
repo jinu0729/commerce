@@ -21,8 +21,8 @@ public class UserController {
         return userService.signUpUser(requestDto);
     }
 
-    @PostMapping("/verify-mail")
+    @PostMapping("/verify-email")
     public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody UserRequestDto requestDto) {
-        return userService.sendVerifyMailForJoin(requestDto);
+        return userService.sendVerifyEmailForJoin(requestDto);
     }
 }
