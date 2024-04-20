@@ -17,7 +17,7 @@ public class User {
     private Long userNo;
 
     @Column(nullable = false)
-    private String email;
+    private String mail;
 
     @JsonIgnore
     @Column(nullable = false)
@@ -34,8 +34,8 @@ public class User {
 
 
     @Builder
-    public User(String email, String password, String name, String mobile, String address) {
-        this.email = email;
+    public User(String mail, String password, String name, String mobile, String address) {
+        this.mail = mail;
         this.password = password;
         this.name = name;
         this.mobile = mobile;

@@ -5,21 +5,24 @@ import com.jinu.commerce.domain.user.service.UserService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService service;
+    private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<ResponseBodyDto> signUpUser(@RequestBody UserRequestDto signUpDto) {
-        return service.signUpUser(signUpDto);
+    public ResponseEntity<ResponseBodyDto> signUpUser(@RequestBody UserRequestDto requestDto) {
+        return userService.signUpUser(requestDto);
     }
 
-    @GetMapping("/check-email")
-    public ResponseEntity<ResponseBodyDto> checkDuplicateByEmail(@RequestParam(value = "email") String email) {
-        return service.checkDuplicateByEmail(email);
+    @PostMapping("/verify-mail")
+    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody UserRequestDto requestDto) {
+        return userService.sendVerifyMailForJoin(requestDto);
     }
 }
