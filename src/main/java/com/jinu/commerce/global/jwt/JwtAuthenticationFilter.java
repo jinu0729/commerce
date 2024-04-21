@@ -1,7 +1,8 @@
 package com.jinu.commerce.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jinu.commerce.domain.auth.dto.request.AuthRequestDto;
+import com.jinu.commerce.domain.auth.dto.request.SignInRequestDto;
+import com.jinu.commerce.global.cookie.CookieUtil;
 import com.jinu.commerce.global.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,17 +19,19 @@ import java.io.IOException;
 @Slf4j(topic = "JwtAuthenticationFilter")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, CookieUtil cookieUtil) {
         setFilterProcessesUrl("/api/auth/sign-in");
+        this.jwtUtil = jwtUtil;
+        this.cookieUtil = cookieUtil;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("로그인 시도");
         try {
-            AuthRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), AuthRequestDto.class);
+            SignInRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SignInRequestDto.class);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -49,11 +52,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         // UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        String accessToken = jwtUtil.createToken(username, 60 * 60 * 1000);
-        String refreshToken = jwtUtil.createToken(username, 14 * 24 * 60 * 60 *1000);
+        String accessToken = jwtUtil.createAccessToken(username);
+        String refreshToken = jwtUtil.createRefreshToken(username);
 
-        jwtUtil.addJwtToCookie("Authorization", accessToken, response);
-        jwtUtil.addJwtToCookie("Refresh-Token", refreshToken, response);
+        cookieUtil.addJwtToCookie("Authorization", accessToken, response);
+        cookieUtil.addJwtToCookie("Refresh-Token", refreshToken, response);
     }
 
     @Override

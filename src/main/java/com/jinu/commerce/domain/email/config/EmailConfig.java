@@ -1,4 +1,4 @@
-package com.jinu.commerce.domain.mail.config;
+package com.jinu.commerce.domain.email.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-public class MailConfig {
+public class EmailConfig {
 
     @Value("${spring.mail.host}")
     private String host;

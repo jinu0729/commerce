@@ -1,5 +1,6 @@
 package com.jinu.commerce.global.jwt;
 
+import com.jinu.commerce.global.cookie.CookieUtil;
 import com.jinu.commerce.global.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -22,12 +23,13 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
     private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenValue = jwtUtil.getTokenFromRequest(req);
+        String tokenValue = cookieUtil.getJwtFromRequestCookie(req);
 
         if (StringUtils.hasText(tokenValue)) {
             // JWT 토큰 substring
