@@ -58,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                         .requestMatchers("/api/users/sign-up").permitAll()
                         .requestMatchers("/api/users/verify-email").permitAll()
+                        .requestMatchers("/api/users/verify-code").permitAll()
                         .requestMatchers("/api/auth/sign-in").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );

@@ -7,36 +7,60 @@ import com.jinu.commerce.domain.user.repository.UserRepository;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
 import com.jinu.commerce.global.exception.CustomException;
 import com.jinu.commerce.global.exception.ErrorCode;
+import com.jinu.commerce.global.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.Random;
 
 @Service
-@Slf4j
+@Slf4j(topic = "UserService")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final ResponseBodyDto bodyDto;
-    private final UserRepository repository;
     private final EmailService emailService;
+    private final RedisService redisService;
+    private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(UserRequestDto requestDto) {
-        log.info("start sendVerifyEmailForJoin");
+    @Value("${spring.mail.auth-code-expiration-millis}")
+    private Long authCodeExpirationMillis;
 
-        this.checkDuplicateByEmail(requestDto.getEmail());
+    @Override
+    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(String email) {
+        log.info("이메일 검증");
+
+        this.checkDuplicateByEmail(email);
 
         String title = "[e-commerce] 회원가입을 위한 이메일 인증";
-        String content = "인증번호 : " + this.createVerifyCode();
+        String code = this.createVerifyCode();
+        String content = "인증번호 : " + code;
 
-        emailService.sendEmail(requestDto.getEmail(), title, content);
+        emailService.sendEmail(email, title, content);
 
-        return ResponseEntity.ok(bodyDto.success("mail 발송 완료"));
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
+        redisService.setValues(email, code, Duration.ofMillis(this.authCodeExpirationMillis));
+
+        return ResponseEntity.ok(bodyDto.success("발송완료"));
+    }
+
+    @Override
+    public ResponseEntity<ResponseBodyDto> checkVerifyCodeForJoin(String email, String code) {
+        log.info("인증코드 검증");
+
+        this.checkDuplicateByEmail(email);
+
+        String redisCode = redisService.getValues(email);
+
+        if(!redisCode.equals(code)) throw new CustomException(ErrorCode.NOT_MATCHED_CODE);
+
+        return ResponseEntity.ok(bodyDto.success("인증완료"));
     }
 
     @Override
@@ -68,12 +92,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int createVerifyCode() {
+    public String createVerifyCode() {
         Random random = new Random();
 
         int min = 1000;
         int max = 9999;
 
-        return random.nextInt(max - min + 1) + min;
+        return String.valueOf(random.nextInt(max - min + 1) + min);
     }
 }
