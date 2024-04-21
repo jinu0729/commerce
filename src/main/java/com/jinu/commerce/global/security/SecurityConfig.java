@@ -1,9 +1,9 @@
-package com.jinu.commerce.global.config;
+package com.jinu.commerce.global.security;
 
+import com.jinu.commerce.global.cookie.CookieUtil;
 import com.jinu.commerce.global.jwt.JwtAuthenticationFilter;
 import com.jinu.commerce.global.jwt.JwtAuthorizationFilter;
 import com.jinu.commerce.global.jwt.JwtUtil;
-import com.jinu.commerce.global.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
 
@@ -32,14 +33,14 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil, cookieUtil);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
     }
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
+        return new JwtAuthorizationFilter(jwtUtil, cookieUtil, userDetailsService);
     }
 
     @Bean

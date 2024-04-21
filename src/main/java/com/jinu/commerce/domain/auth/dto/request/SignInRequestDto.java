@@ -3,7 +3,7 @@ package com.jinu.commerce.domain.auth.dto.request;
 import lombok.Getter;
 
 @Getter
-public class AuthRequestDto {
+public class SignInRequestDto {
     private String email;
     private String password;
 }
