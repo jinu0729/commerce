@@ -5,10 +5,7 @@ import com.jinu.commerce.domain.user.service.UserService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,6 +20,12 @@ public class UserController {
 
     @PostMapping("/verify-email")
     public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody UserRequestDto requestDto) {
-        return userService.sendVerifyEmailForJoin(requestDto);
+        return userService.sendVerifyEmailForJoin(requestDto.getEmail());
+    }
+
+    @GetMapping("/verify-code")
+    public ResponseEntity<ResponseBodyDto> checkVerifyCodeForJoin(@RequestParam(value = "email") String email,
+                                                                  @RequestParam(value = "code") String code) {
+        return userService.checkVerifyCodeForJoin(email, code);
     }
 }

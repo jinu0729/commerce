@@ -4,7 +4,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     container_name: mysql
     ports:
-      - "3307:3306" #반드시 호스트 컴퓨터의 포트번호를 3307로 해주기. 3306으로 하면 포트 충돌
+      - "3307:3306" # 반드시 호스트 컴퓨터의 포트번호를 3307로 해주기. 3306으로 하면 포트 충돌
     volumes:
       - ./mysql/data:/var/lib/mysql
     environment:
@@ -13,3 +13,9 @@ services:
       MYSQL_USER: commerce
       MYSQL_PASSWORD: commerce
       restart: always
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
