@@ -8,6 +8,7 @@ import com.jinu.commerce.global.dto.ResponseBodyDto;
 import com.jinu.commerce.global.exception.CustomException;
 import com.jinu.commerce.global.exception.ErrorCode;
 import com.jinu.commerce.global.redis.RedisService;
+import com.jinu.commerce.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -26,11 +28,31 @@ public class UserServiceImpl implements UserService {
     private final ResponseBodyDto bodyDto;
     private final EmailService emailService;
     private final RedisService redisService;
-    private final UserRepository repository;
+    private final UserRepository repo;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private Long authCodeExpirationMillis;
+
+    @Override
+    @Transactional
+    public ResponseEntity<ResponseBodyDto> signUpUser(UserRequestDto requestDto) {
+        log.info("start signUpUser");
+
+        this.checkDuplicateByEmail(requestDto.getEmail());
+
+        User user = User.builder()
+                .email(requestDto.getEmail())
+                .password(passwordEncoder.encode(requestDto.getPassword()))
+                .name(requestDto.getName())
+                .mobile(requestDto.getMobile())
+                .address(requestDto.getAddress())
+                .build();
+
+        repo.save(user);
+
+        return ResponseEntity.ok(bodyDto.success("가입완료"));
+    }
 
     @Override
     public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(String email) {
@@ -44,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
         emailService.sendEmail(email, title, content);
 
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = email / value = code )
         redisService.setValues(email, code, Duration.ofMillis(this.authCodeExpirationMillis));
 
         return ResponseEntity.ok(bodyDto.success("발송완료"));
@@ -65,28 +87,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> signUpUser(UserRequestDto requestDto) {
-        log.info("start signUpUser");
+    public ResponseEntity<ResponseBodyDto> updateUserInfo(UserDetailsImpl userDetails, UserRequestDto requestDto) {
+        log.info("개인정보 업데이트");
 
-        this.checkDuplicateByEmail(requestDto.getEmail());
+        User user = this.repo.findById(userDetails.getUser().getUserId()).orElseThrow(
+                () -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        User user = User.builder()
-                .email(requestDto.getEmail())
-                .password(passwordEncoder.encode(requestDto.getPassword()))
-                .name(requestDto.getName())
-                .mobile(requestDto.getMobile())
-                .address(requestDto.getAddress())
-                .build();
+        user.updateInfo(requestDto);
 
-        repository.save(user);
-
-        return ResponseEntity.ok(bodyDto.success("가입완료"));
+        return ResponseEntity.ok(bodyDto.success("개인정보 업데이트 완료"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public void checkDuplicateByEmail(String mail) {
-        if (repository.existsByEmail(mail)) {
+        if (repo.existsByEmail(mail)) {
             throw new CustomException(ErrorCode.DUPLICATE_MAIL);
         }
     }
