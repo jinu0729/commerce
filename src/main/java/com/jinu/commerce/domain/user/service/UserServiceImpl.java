@@ -1,7 +1,9 @@
 package com.jinu.commerce.domain.user.service;
 
 import com.jinu.commerce.domain.email.service.EmailService;
-import com.jinu.commerce.domain.user.dto.request.UserRequestDto;
+import com.jinu.commerce.domain.user.dto.request.SignUpRequestDto;
+import com.jinu.commerce.domain.user.dto.request.UpdateInfoRequestDto;
+import com.jinu.commerce.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.jinu.commerce.domain.user.entity.User;
 import com.jinu.commerce.domain.user.repository.UserRepository;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> signUpUser(UserRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> signUpUser(SignUpRequestDto requestDto) {
         log.info("start signUpUser");
 
         this.checkDuplicateByEmail(requestDto.getEmail());
@@ -87,15 +88,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> updateUserInfo(UserDetailsImpl userDetails, UserRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> updateByInfo(UserDetailsImpl userDetails, UpdateInfoRequestDto requestDto) {
         log.info("개인정보 업데이트");
 
         User user = this.repo.findById(userDetails.getUser().getUserId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        user.updateInfo(requestDto);
+        user.updateByInfo(requestDto);
 
         return ResponseEntity.ok(bodyDto.success("개인정보 업데이트 완료"));
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<ResponseBodyDto> updateByPassword(UserDetailsImpl userDetails, UpdatePasswordRequestDto requestDto) {
+        log.info("패스워드 업데이트");
+
+        User user = this.repo.findById(userDetails.getUser().getUserId()).orElseThrow(
+                () -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        this.validatePassword(requestDto.getOgPassword(), user.getPassword());
+
+        user.updateByPassword(passwordEncoder.encode(requestDto.getNewPassword()));
+
+        return ResponseEntity.ok(bodyDto.success("패스워드 업데이트 완료"));
     }
 
     @Override
@@ -114,5 +130,12 @@ public class UserServiceImpl implements UserService {
         int max = 9999;
 
         return String.valueOf(random.nextInt(max - min + 1) + min);
+    }
+
+    @Override
+    public void validatePassword(String inputPassword, String setPassword) {
+        if (!passwordEncoder.matches(inputPassword, setPassword)) {
+            throw new CustomException(ErrorCode.NOT_MATCHED_PASSWORD);
+        }
     }
 }

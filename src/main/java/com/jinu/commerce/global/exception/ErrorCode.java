@@ -10,6 +10,7 @@ public enum ErrorCode {
     // user
     DUPLICATE_MAIL(HttpStatus.CONFLICT.value(), "DUPLICATE_MAIL", "mail 중복"),
     NOT_FOUND_USER(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_USER", "가입되지 않은 사용자"),
+    NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST.value(), "NOT_MATCHED_PASSWORD", "비밀번호 미일치"),
 
     // mail
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_VALUE", "인증코드 없음"),

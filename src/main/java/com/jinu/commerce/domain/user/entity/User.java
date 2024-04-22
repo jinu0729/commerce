@@ -1,12 +1,13 @@
 package com.jinu.commerce.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinu.commerce.domain.user.dto.request.UserRequestDto;
+import com.jinu.commerce.domain.user.dto.request.UpdateInfoRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
@@ -43,8 +44,12 @@ public class User {
         this.address = address;
     }
 
-    public void updateInfo(UserRequestDto requestDto) {
+    public void updateByInfo(UpdateInfoRequestDto requestDto) {
         this.mobile = requestDto.getMobile();
         this.address = requestDto.getAddress();
+    }
+
+    public void updateByPassword(String password) {
+        this.password = password;
     }
 }
