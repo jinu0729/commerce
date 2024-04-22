@@ -1,6 +1,8 @@
 package com.jinu.commerce.domain.user.controller;
 
-import com.jinu.commerce.domain.user.dto.request.UserRequestDto;
+import com.jinu.commerce.domain.user.dto.request.SignUpRequestDto;
+import com.jinu.commerce.domain.user.dto.request.UpdateInfoRequestDto;
+import com.jinu.commerce.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.jinu.commerce.domain.user.service.UserService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
 import com.jinu.commerce.global.security.UserDetailsImpl;
@@ -16,12 +18,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<ResponseBodyDto> signUpUser(@RequestBody UserRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> signUpUser(@RequestBody SignUpRequestDto requestDto) {
         return userService.signUpUser(requestDto);
     }
 
     @PostMapping("/verify-email")
-    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody UserRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody SignUpRequestDto requestDto) {
         return userService.sendVerifyEmailForJoin(requestDto.getEmail());
     }
 
@@ -32,8 +34,14 @@ public class UserController {
     }
 
     @PutMapping("/update-info")
-    public ResponseEntity<ResponseBodyDto> updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                          @RequestBody UserRequestDto requestDto) {
-        return userService.updateUserInfo(userDetails, requestDto);
+    public ResponseEntity<ResponseBodyDto> updateByInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        @RequestBody UpdateInfoRequestDto requestDto) {
+        return userService.updateByInfo(userDetails, requestDto);
+    }
+
+    @PutMapping("/update-password")
+    public ResponseEntity<ResponseBodyDto> updateByPassword(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                            @RequestBody UpdatePasswordRequestDto requestDto) {
+        return userService.updateByPassword(userDetails, requestDto);
     }
 }
