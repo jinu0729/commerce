@@ -1,6 +1,7 @@
 package com.jinu.commerce.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinu.commerce.domain.user.dto.request.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,5 +41,10 @@ public class User {
         this.name = name;
         this.mobile = mobile;
         this.address = address;
+    }
+
+    public void updateInfo(UserRequestDto requestDto) {
+        this.mobile = requestDto.getMobile();
+        this.address = requestDto.getAddress();
     }
 }

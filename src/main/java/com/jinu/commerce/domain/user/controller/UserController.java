@@ -3,8 +3,10 @@ package com.jinu.commerce.domain.user.controller;
 import com.jinu.commerce.domain.user.dto.request.UserRequestDto;
 import com.jinu.commerce.domain.user.service.UserService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
+import com.jinu.commerce.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,5 +29,11 @@ public class UserController {
     public ResponseEntity<ResponseBodyDto> checkVerifyCodeForJoin(@RequestParam(value = "email") String email,
                                                                   @RequestParam(value = "code") String code) {
         return userService.checkVerifyCodeForJoin(email, code);
+    }
+
+    @PutMapping("/update-info")
+    public ResponseEntity<ResponseBodyDto> updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                          @RequestBody UserRequestDto requestDto) {
+        return userService.updateUserInfo(userDetails, requestDto);
     }
 }
