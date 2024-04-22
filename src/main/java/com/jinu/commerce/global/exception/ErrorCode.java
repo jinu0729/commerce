@@ -17,6 +17,9 @@ public enum ErrorCode {
     NOT_MATCHED_CODE(HttpStatus.BAD_REQUEST.value(), "NOT_MATCHED_CODE", "인증코드 미일치"),
     WRONG_EMAIL(HttpStatus.BAD_REQUEST.value(), "WRONG_EMAIL", "잘못된 이메일"),
 
+    // product
+    NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_PRODUCT", "해당상품 없음"),
+
     ;
 
 

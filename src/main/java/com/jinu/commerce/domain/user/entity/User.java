@@ -2,18 +2,18 @@ package com.jinu.commerce.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinu.commerce.domain.user.dto.request.UpdateInfoRequestDto;
+import com.jinu.commerce.global.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;

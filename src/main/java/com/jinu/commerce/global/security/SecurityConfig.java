@@ -60,6 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/verify-email").permitAll()
                         .requestMatchers("/api/users/verify-code").permitAll()
                         .requestMatchers("/api/auth/sign-in").permitAll()
+                        .requestMatchers("/api/products/**").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
