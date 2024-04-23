@@ -14,8 +14,8 @@ public class ProductDetail extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productDetailId;
 
-    @Column(nullable = false)
-    private Long productId;
+    @OneToOne(mappedBy = "productDetail")
+    private Product product;
 
     @Column(nullable = false)
     private String title;
@@ -28,8 +28,8 @@ public class ProductDetail extends Timestamped {
 
 
     @Builder
-    public ProductDetail(Long productId, String title, Long price, Long stock) {
-        this.productId = productId;
+    public ProductDetail(Product product, String title, Long price, Long stock) {
+        this.product = product;
         this.title = title;
         this.price = price;
         this.stock = stock;

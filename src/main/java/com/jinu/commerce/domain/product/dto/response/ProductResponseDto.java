@@ -1,5 +1,6 @@
 package com.jinu.commerce.domain.product.dto.response;
 
+import com.jinu.commerce.domain.product.entity.ProductDetail;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,15 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProductResponseDto {
-    private String title;
-    private Long price;
-    private Long stock;
+    private Long productId;
+    private ProductDetailResponseDto detailResponseDto;
 
 
     @Builder
-    public ProductResponseDto(String title, Long price, Long stock) {
-        this.title = title;
-        this.price = price;
-        this.stock = stock;
+    public ProductResponseDto(Long productId, ProductDetailResponseDto detailResponseDto) {
+        this.productId = productId;
+        this.detailResponseDto = detailResponseDto;
     }
 }

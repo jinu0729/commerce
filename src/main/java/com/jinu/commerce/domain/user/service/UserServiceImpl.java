@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public void checkDuplicateByEmail(String mail) {
         if (repo.existsByEmail(mail)) {
-            throw new CustomException(ErrorCode.DUPLICATE_MAIL);
+            throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
         }
     }
 
