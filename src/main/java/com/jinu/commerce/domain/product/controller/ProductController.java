@@ -1,6 +1,5 @@
 package com.jinu.commerce.domain.product.controller;
 
-import com.jinu.commerce.domain.product.service.ProductDetailService;
 import com.jinu.commerce.domain.product.service.ProductService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final ProductDetailService productDetailService;
 
     @GetMapping()
     public ResponseEntity<ResponseBodyDto> getAllProducts() {
@@ -23,7 +21,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ResponseBodyDto> getProduct(@PathVariable(name = "productId") Long productId) {
-        return productDetailService.getProduct(productId);
+    public ResponseEntity<ResponseBodyDto> getProductByProductId(@PathVariable(name = "productId") Long productId) {
+        return productService.getProductByProductId(productId);
     }
 }

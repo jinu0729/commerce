@@ -6,16 +6,18 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class AllProductsResponseDto {
-    private Long productId;
+public class ProductDetailResponseDto {
+    private Long productDetailId;
     private String title;
     private Long price;
+    private Long stock;
 
 
     @Builder
-    public AllProductsResponseDto(Long productId, String title, Long price) {
-        this.productId = productId;
+    public ProductDetailResponseDto(Long productDetailId, String title, Long price, Long stock) {
+        this.productDetailId = productDetailId;
         this.title = title;
         this.price = price;
+        this.stock = stock;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
     // user
-    DUPLICATE_MAIL(HttpStatus.CONFLICT.value(), "DUPLICATE_MAIL", "mail 중복"),
+    DUPLICATE_EMAIL(HttpStatus.CONFLICT.value(), "DUPLICATE_EMAIL", "이메일 중복"),
     NOT_FOUND_USER(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_USER", "가입되지 않은 사용자"),
     NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST.value(), "NOT_MATCHED_PASSWORD", "비밀번호 미일치"),
 
@@ -20,6 +20,8 @@ public enum ErrorCode {
     // product
     NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_PRODUCT", "해당상품 없음"),
 
+    // token
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "EXPIRED_TOKEN", "만료된 토큰")
     ;
 
 

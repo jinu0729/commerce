@@ -38,8 +38,10 @@ public class CookieUtil {
         res.addCookie(cookie);
     }
 
-    // HttpServletRequest 에서 Cookie Value : JWT 가져오기
-    public String getJwtFromRequestCookie(HttpServletRequest req) {
+    // HttpServletRequest 에서 Cookie Value : accessToken 가져오기
+    public String getAccessTokenFromRequestCookie(HttpServletRequest req) {
+        log.info("accessToken 가져오기");
+
         Cookie[] cookies = req.getCookies();
 
         if (cookies != null) {
