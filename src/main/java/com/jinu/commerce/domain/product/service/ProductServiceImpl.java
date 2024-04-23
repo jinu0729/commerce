@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponseDto> responseDtoList = this.productRepository.findAll().stream()
                 .map(product -> ProductResponseDto.builder()
                         .productId(product.getProductId())
-                        .detailResponseDto(ProductDetailResponseDto.builder()
+                        .productDetails(ProductDetailResponseDto.builder()
                                 .productDetailId(product.getProductDetail().getProductDetailId())
                                 .title(product.getProductDetail().getTitle())
                                 .price(product.getProductDetail().getPrice())
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
         ProductResponseDto responseDto = ProductResponseDto.builder()
                 .productId(product.getProductId())
-                .detailResponseDto(ProductDetailResponseDto.builder()
+                .productDetails(ProductDetailResponseDto.builder()
                         .productDetailId(product.getProductDetail().getProductDetailId())
                         .title(product.getProductDetail().getTitle())
                         .price(product.getProductDetail().getPrice())

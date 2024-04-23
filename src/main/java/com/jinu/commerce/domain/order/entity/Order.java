@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,17 +29,22 @@ public class Order  extends Timestamped {
     private Long price;
 
     @Column
-    private Enum<OrderStatus> status;
+    private OrderStatus status;
 
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<OrderDetail> orderDetails;
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
 
     @Builder
-    public Order(User user, Long price, Enum<OrderStatus> status, List<OrderDetail> orderDetails) {
+    public Order(User user, Long price, OrderStatus status, List<OrderDetail> orderDetails) {
         this.user = user;
         this.price = price;
         this.status = status;
         this.orderDetails = orderDetails;
+    }
+
+    public void addOrderDetails(OrderDetail orderDetail) {
+        this.orderDetails.add(orderDetail);
+        orderDetail.setOrder(this);
     }
 }

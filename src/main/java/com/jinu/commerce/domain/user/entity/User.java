@@ -37,9 +37,6 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Order> orders;
-
 
     @Builder
     public User(String email, String password, String name, String mobile, String address) {

@@ -1,4 +1,4 @@
-package com.jinu.commerce.domain.order.dto;
+package com.jinu.commerce.domain.order.dto.request;
 
 import com.jinu.commerce.domain.product.entity.Product;
 import lombok.Builder;

@@ -3,7 +3,6 @@ package com.jinu.commerce.domain.auth.service;
 import com.jinu.commerce.domain.auth.entity.Auth;
 import com.jinu.commerce.domain.auth.repository.AuthRepository;
 import com.jinu.commerce.global.cookie.CookieUtil;
-import com.jinu.commerce.global.dto.ResponseBodyDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final ResponseBodyDto body;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final CookieUtil cookieUtil;
