@@ -20,6 +20,9 @@ public enum ErrorCode {
     // product
     NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_PRODUCT", "해당상품 없음"),
 
+    // order
+    NOT_FOUND_ORDER(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_ORDER", "해당주문 없음"),
+
     // token
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "EXPIRED_TOKEN", "만료된 토큰")
     ;

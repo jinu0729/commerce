@@ -14,13 +14,20 @@ public class Product extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    @OneToOne
-    @JoinColumn(name = "product_detail_id")
-    private ProductDetail productDetail;
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private Long price;
+
+    @Column(nullable = false)
+    private Long stock;
 
 
     @Builder
-    public Product(ProductDetail productDetail) {
-        this.productDetail = productDetail;
+    public Product(String title, Long price, Long stock) {
+        this.title = title;
+        this.price = price;
+        this.stock = stock;
     }
 }

@@ -1,6 +1,5 @@
 package com.jinu.commerce.domain.product.service;
 
-import com.jinu.commerce.domain.product.dto.response.ProductDetailResponseDto;
 import com.jinu.commerce.domain.product.dto.response.ProductResponseDto;
 import com.jinu.commerce.domain.product.entity.Product;
 import com.jinu.commerce.domain.product.repository.ProductRepository;
@@ -31,35 +30,29 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponseDto> responseDtoList = this.productRepository.findAll().stream()
                 .map(product -> ProductResponseDto.builder()
                         .productId(product.getProductId())
-                        .productDetails(ProductDetailResponseDto.builder()
-                                .productDetailId(product.getProductDetail().getProductDetailId())
-                                .title(product.getProductDetail().getTitle())
-                                .price(product.getProductDetail().getPrice())
-                                .stock(product.getProductDetail().getStock())
-                                .build())
+                        .title(product.getTitle())
+                        .price(product.getPrice())
+                        .stock(product.getStock())
                         .build())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseBodyDto.successWithData("전체조회 완료", responseDtoList));
+        return ResponseEntity.ok(responseBodyDto.successWithResult("전체조회 완료", responseDtoList));
     }
 
     @Override
-    public ResponseEntity<ResponseBodyDto> getProductByProductId(Long productId) {
+    public ResponseEntity<ResponseBodyDto> getProductById(Long productId) {
         log.info("상품 상세조회");
 
         Product product = this.findById(productId);
 
         ProductResponseDto responseDto = ProductResponseDto.builder()
                 .productId(product.getProductId())
-                .productDetails(ProductDetailResponseDto.builder()
-                        .productDetailId(product.getProductDetail().getProductDetailId())
-                        .title(product.getProductDetail().getTitle())
-                        .price(product.getProductDetail().getPrice())
-                        .stock(product.getProductDetail().getStock())
-                        .build())
+                .title(product.getTitle())
+                .price(product.getPrice())
+                .stock(product.getStock())
                 .build();
 
-        return ResponseEntity.ok(responseBodyDto.successWithData("상세조회 완료", responseDto));
+        return ResponseEntity.ok(responseBodyDto.successWithResult("상세조회 완료", responseDto));
     }
 
     @Override

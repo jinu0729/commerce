@@ -26,4 +26,9 @@ public class OrderController {
     @GetMapping()
     public ResponseEntity<ResponseBodyDto> getAllOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return this.orderService.getAllOrders(userDetails);
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ResponseBodyDto> getOrderDetailByOrderId(@PathVariable(name = "orderId") Long orderId) {
+        return this.orderService.getOrderDetailByOrderId(orderId);
 }}

@@ -17,15 +17,15 @@ public class ResponseBodyDto {
     private int status;
     private String code;
     private String message;
-    private Object data;
+    private Object result;
 
 
     @Builder
-    public ResponseBodyDto(int status, String code, String message, Object data) {
+    public ResponseBodyDto(int status, String code, String message, Object result) {
         this.status = status;
         this.code = code;
         this.message = message;
-        this.data = data;
+        this.result = result;
     }
 
     public ResponseBodyDto success(String message) {
@@ -36,12 +36,12 @@ public class ResponseBodyDto {
                 .build();
     }
 
-    public ResponseBodyDto successWithData(String message, Object data) {
+    public ResponseBodyDto successWithResult(String message, Object result) {
         return ResponseBodyDto.builder()
                 .status(HttpStatus.OK.value())
                 .code(HttpStatus.OK.getReasonPhrase())
                 .message(message)
-                .data(data)
+                .result(result)
                 .build();
     }
 }
