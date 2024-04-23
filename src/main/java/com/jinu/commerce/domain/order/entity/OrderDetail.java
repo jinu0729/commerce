@@ -6,9 +6,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class OrderDetail extends Timestamped {
     @Id
@@ -28,9 +30,9 @@ public class OrderDetail extends Timestamped {
 
 
     @Builder
-    public OrderDetail(Order order, Product product, Long qty) {
-        this.order = order;
+    public OrderDetail(Product product, Order order, Long qty) {
         this.product = product;
+        this.order = order;
         this.qty = qty;
     }
 }

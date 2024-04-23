@@ -26,10 +26,10 @@ import java.util.Random;
 @Slf4j(topic = "UserService")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final ResponseBodyDto bodyDto;
+    private final UserRepository userRepository;
+    private final ResponseBodyDto responseBodyDto;
     private final EmailService emailService;
     private final RedisService redisService;
-    private final UserRepository repo;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${spring.mail.auth-code-expiration-millis}")
@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
                 .address(requestDto.getAddress())
                 .build();
 
-        repo.save(user);
+        userRepository.save(user);
 
-        return ResponseEntity.ok(bodyDto.success("가입완료"));
+        return ResponseEntity.ok(responseBodyDto.success("가입완료"));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = email / value = code )
         redisService.setValues(email, code, Duration.ofMillis(this.authCodeExpirationMillis));
 
-        return ResponseEntity.ok(bodyDto.success("발송완료"));
+        return ResponseEntity.ok(responseBodyDto.success("발송완료"));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
         if(!redisCode.equals(code)) throw new CustomException(ErrorCode.NOT_MATCHED_CODE);
 
-        return ResponseEntity.ok(bodyDto.success("인증완료"));
+        return ResponseEntity.ok(responseBodyDto.success("인증완료"));
     }
 
     @Override
@@ -91,12 +91,12 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseBodyDto> updateByInfo(UserDetailsImpl userDetails, UpdateInfoRequestDto requestDto) {
         log.info("개인정보 업데이트");
 
-        User user = this.repo.findById(userDetails.getUser().getUserId()).orElseThrow(
+        User user = this.userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         user.updateByInfo(requestDto);
 
-        return ResponseEntity.ok(bodyDto.success("개인정보 업데이트 완료"));
+        return ResponseEntity.ok(responseBodyDto.success("개인정보 업데이트 완료"));
     }
 
     @Override
@@ -104,20 +104,20 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<ResponseBodyDto> updateByPassword(UserDetailsImpl userDetails, UpdatePasswordRequestDto requestDto) {
         log.info("패스워드 업데이트");
 
-        User user = this.repo.findById(userDetails.getUser().getUserId()).orElseThrow(
+        User user = this.userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         this.validatePassword(requestDto.getOgPassword(), user.getPassword());
 
         user.updateByPassword(passwordEncoder.encode(requestDto.getNewPassword()));
 
-        return ResponseEntity.ok(bodyDto.success("패스워드 업데이트 완료"));
+        return ResponseEntity.ok(responseBodyDto.success("패스워드 업데이트 완료"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public void checkDuplicateByEmail(String mail) {
-        if (repo.existsByEmail(mail)) {
+        if (userRepository.existsByEmail(mail)) {
             throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
         }
     }

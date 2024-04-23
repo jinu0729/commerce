@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 public interface ProductService {
     ResponseEntity<ResponseBodyDto> getAllProducts();
 
-    ResponseEntity<ResponseBodyDto> getProductByProductId(Long productId);
+    ResponseEntity<ResponseBodyDto> getProductById(Long productId);
 
     Product findById(Long productId);
 }
