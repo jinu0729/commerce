@@ -1,6 +1,8 @@
 package com.jinu.commerce.domain.order.controller;
 
 import com.jinu.commerce.domain.order.dto.request.OrderRequestDto;
+import com.jinu.commerce.domain.order.entity.Order;
+import com.jinu.commerce.domain.order.service.OrderDetailService;
 import com.jinu.commerce.domain.order.service.OrderService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
 import com.jinu.commerce.global.security.UserDetailsImpl;
@@ -16,14 +18,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final OrderDetailService orderDetailService;
+    private final ResponseBodyDto responseBodyDto;
 
     @PostMapping()
-    public ResponseEntity<ResponseBodyDto> registerOrder(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                         @RequestBody List<OrderRequestDto> requestDtos) {
-        return this.orderService.registerOrder(userDetails, requestDtos);
+    public ResponseEntity<ResponseBodyDto> createOrder(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                       @RequestBody List<OrderRequestDto> requestDtos) {
+        Order order = this.orderService.createOrder(userDetails);
+        this.orderDetailService.createOrderDetail(order, requestDtos);
+
+        return ResponseEntity.ok(responseBodyDto.success("주문완료"));
     }
 
-    @GetMapping()
+    /*@GetMapping()
     public ResponseEntity<ResponseBodyDto> getAllOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return this.orderService.getAllOrders(userDetails);
     }
@@ -31,4 +38,5 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<ResponseBodyDto> getOrderDetailByOrderId(@PathVariable(name = "orderId") Long orderId) {
         return this.orderService.getOrderDetailByOrderId(orderId);
-}}
+    }*/
+}

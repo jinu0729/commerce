@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface OrderService {
-    ResponseEntity<ResponseBodyDto> registerOrder(UserDetailsImpl userDetails, List<OrderRequestDto> requestDtos);
+    Order createOrder(UserDetailsImpl userDetails);
 
-    ResponseEntity<ResponseBodyDto> getAllOrders(UserDetailsImpl userDetails);
+/*    ResponseEntity<ResponseBodyDto> getAllOrders(UserDetailsImpl userDetails);
 
     ResponseEntity<ResponseBodyDto> getOrderDetailByOrderId(Long orderId);
 
-    Order findById(Long orderId);
+    Order findById(Long orderId);*/
 }

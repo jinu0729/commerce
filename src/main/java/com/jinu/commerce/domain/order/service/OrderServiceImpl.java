@@ -29,55 +29,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    private final ProductService productService;
     private final OrderRepository orderRepository;
-    private final OrderDetailRepository orderDetailRepository;
     private final ResponseBodyDto responseBodyDto;
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> registerOrder(UserDetailsImpl userDetails,
-                                                         List<OrderRequestDto> orderRequestDtos) {
-        log.info("상품주문");
+    public Order createOrder(UserDetailsImpl userDetails) {
+        log.info("주문생성");
 
-        // 주문 생성
         Order order = Order.builder()
                 .user(userDetails.getUser())
                 .status(OrderStatus.ORDER_COMPLETED)
                 .build();
 
-        // 주문 상세 및 가격 계산
-        List<OrderDetail> orderDetails = new ArrayList<>();
-
-        long price = 0;
-
-        for (OrderRequestDto orderRequestDto : orderRequestDtos) {
-            Product product = this.productService.findById(orderRequestDto.getProductId());
-
-            OrderDetail orderDetail = OrderDetail.builder()
-                    .order(order)
-                    .product(product)
-                    .qty(orderRequestDto.getQty())
-                    .build();
-
-            orderDetails.add(orderDetail);
-
-            price += product.getPrice() * orderRequestDto.getQty();
-        }
-
-        // order 주문 상세 및 총 가격 설정
-        order.setOrderDetails(orderDetails);
-        order.setPrice(price);
-
-        // 주문 및 주문 상세 저장
         this.orderRepository.save(order);
-        this.orderDetailRepository.saveAll(orderDetails);
 
-        return ResponseEntity.ok(responseBodyDto.success("주문완료"));
+        return order;
     }
 
 
-    @Override
+    /*@Override
     @Transactional(readOnly = true)
     public ResponseEntity<ResponseBodyDto> getAllOrders(UserDetailsImpl userDetails) {
         log.info("주문 전체조회");
@@ -131,5 +102,5 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository.findById(orderId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_ORDER)
         );
-    }
+    }*/
 }

@@ -12,39 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "`order`")
+@Table(name = "ORDER")
 @Setter
 @Getter
 @NoArgsConstructor
 public class Order  extends Timestamped {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column
-    private Long price;
-
-    @Column
+    @Column(nullable = false)
     private OrderStatus status;
-
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails = new ArrayList<>();
 
 
     @Builder
-    public Order(User user, Long price, OrderStatus status, List<OrderDetail> orderDetails) {
+    public Order(User user, OrderStatus status) {
         this.user = user;
-        this.price = price;
         this.status = status;
-        this.orderDetails = orderDetails;
-    }
-
-    public void addOrderDetails(OrderDetail orderDetail) {
-        this.orderDetails.add(orderDetail);
-        orderDetail.setOrder(this);
     }
 }

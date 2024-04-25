@@ -9,23 +9,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "ORDER_DETAIL")
 @Getter
 @Setter
 @NoArgsConstructor
 public class OrderDetail extends Timestamped {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderDetailId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_detail_id")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne()
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column
+    @Column(nullable = false)
     private Long qty;
 
 
