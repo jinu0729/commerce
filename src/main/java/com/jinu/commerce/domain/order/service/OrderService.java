@@ -12,5 +12,7 @@ public interface OrderService {
 
     Order getOrderByOrderId(Long orderId);
 
-    void changeStringToCancel(Long orderId);
+    void changeStatusToCancel(Long orderId);
+
+    void changeStatusToReturn(Long orderId);
 }
