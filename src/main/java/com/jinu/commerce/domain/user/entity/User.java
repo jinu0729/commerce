@@ -1,7 +1,6 @@
 package com.jinu.commerce.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinu.commerce.domain.order.entity.Order;
 import com.jinu.commerce.domain.user.dto.request.UpdateInfoRequestDto;
 import com.jinu.commerce.global.util.Timestamped;
 import jakarta.persistence.*;
@@ -9,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter

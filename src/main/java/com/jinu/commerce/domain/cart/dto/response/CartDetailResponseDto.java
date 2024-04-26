@@ -1,6 +1,6 @@
-package com.jinu.commerce.domain.order.dto.response;
+package com.jinu.commerce.domain.cart.dto.response;
 
-import com.jinu.commerce.domain.order.entity.OrderDetail;
+import com.jinu.commerce.domain.cart.entity.CartItem;
 import com.jinu.commerce.domain.product.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class OrderDetailResponseDto {
+public class CartDetailResponseDto {
     private Long orderDetailId;
 
     private Product product;
@@ -19,16 +19,16 @@ public class OrderDetailResponseDto {
 
 
     @Builder
-    public OrderDetailResponseDto(Long orderDetailId, Product product, Long qty) {
+    public CartDetailResponseDto(Long orderDetailId, Product product, Long qty) {
         this.orderDetailId = orderDetailId;
         this.product = product;
         this.qty = qty;
     }
 
-    public static List<OrderDetailResponseDto> createOrderDetailsIntoOrderDetailResponseDtos(List<OrderDetail> orderDetails) {
-        return orderDetails.stream()
-                .map(orderDetail -> OrderDetailResponseDto.builder()
-                        .orderDetailId(orderDetail.getOrderDetailId())
+    public static List<CartDetailResponseDto> createOrderDetailsIntoOrderDetailResponseDtos(List<CartItem> cartItems) {
+        return cartItems.stream()
+                .map(orderDetail -> CartDetailResponseDto.builder()
+                        .orderDetailId(orderDetail.getCartItemId())
                         .product(orderDetail.getProduct())
                         .qty(orderDetail.getQty())
                         .build())

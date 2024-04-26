@@ -1,7 +1,6 @@
 package com.jinu.commerce.domain.order.service;
 
 import com.jinu.commerce.domain.order.dto.request.OrderRequestDto;
-import com.jinu.commerce.domain.order.dto.response.OrderDetailResponseDto;
 import com.jinu.commerce.domain.order.entity.Order;
 import com.jinu.commerce.domain.order.entity.OrderDetail;
 
