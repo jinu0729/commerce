@@ -15,19 +15,23 @@ import lombok.Setter;
 public class Order  extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
-    private OrderStatus status;
+    private String status;
 
 
     @Builder
-    public Order(User user, OrderStatus status) {
+    public Order(User user, String status) {
         this.user = user;
+        this.status = status;
+    }
+
+    public void updateStatus(String status) {
         this.status = status;
     }
 }
