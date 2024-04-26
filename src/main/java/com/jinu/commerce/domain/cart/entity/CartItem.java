@@ -35,4 +35,8 @@ public class CartItem extends Timestamped {
         this.product = product;
         this.qty = qty;
     }
+
+    public void editQty(Long qty) {
+        this.qty = qty;
+    }
 }

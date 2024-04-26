@@ -1,6 +1,7 @@
 package com.jinu.commerce.domain.cart.controller;
 
 import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
+import com.jinu.commerce.domain.cart.dto.request.CartItemEditRequestDto;
 import com.jinu.commerce.domain.cart.dto.response.CartItemResponseDto;
 import com.jinu.commerce.domain.cart.entity.Cart;
 import com.jinu.commerce.domain.cart.entity.CartItem;
@@ -42,25 +43,14 @@ public class CartController {
         return ResponseEntity.ok(responseBodyDto.successWithResult("전체조회 완료", responseDtos));
     }
 
-    /* @GetMapping("/{orderId}")
-    public ResponseEntity<ResponseBodyDto> getOrderDetailsByOrder(@PathVariable(name = "orderId") Long orderId) {
-        Cart cart = this.cartService.getOrderByOrderId(orderId);
+    @PatchMapping("/edit")
+    public ResponseEntity<ResponseBodyDto> editCartItemQty(@RequestBody CartItemEditRequestDto requestDto) {
+        this.cartDetailService.editCartItemQty(requestDto);
 
-        List<CartItem> cartDetails = this.cartDetailService.getOrderDetailsByOrder(cart);
-        List<CartDetailResponseDto> responseDtos =
-                CartDetailResponseDto.createOrderDetailsIntoOrderDetailResponseDtos(cartDetails);
-
-        return ResponseEntity.ok(responseBodyDto.successWithResult("상세조회 완료", responseDtos));
+        return ResponseEntity.ok(responseBodyDto.success("수량변경 완료"));
     }
 
-    @PatchMapping("/cancel/{orderId}")
-    public ResponseEntity<ResponseBodyDto> cancelOrder(@PathVariable(name = "orderId") Long orderId) {
-        this.cartService.changeStatusToCancel(orderId);
-
-        return ResponseEntity.ok(responseBodyDto.success("취소완료"));
-    }
-
-    @PatchMapping("/return/{orderId}")
+    /*@PatchMapping("/return/{orderId}")
     public ResponseEntity<ResponseBodyDto> returnOrder(@PathVariable(name = "orderId") Long orderId) {
         this.cartService.changeStatusToReturn(orderId);
 
