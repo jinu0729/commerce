@@ -1,7 +1,7 @@
 package com.jinu.commerce.domain.cart.service;
 
-import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
 import com.jinu.commerce.domain.cart.dto.request.CartItemEditRequestDto;
+import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
 import com.jinu.commerce.domain.cart.entity.Cart;
 import com.jinu.commerce.domain.cart.entity.CartItem;
 
@@ -15,4 +15,6 @@ public interface CartDetailService {
     void editCartItemQty(CartItemEditRequestDto cartItemId);
 
     CartItem getCartItemById(Long cartItemId);
+
+    void deleteCartItemById(Long cartItemId);
 }

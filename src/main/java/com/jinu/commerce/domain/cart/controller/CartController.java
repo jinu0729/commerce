@@ -1,7 +1,7 @@
 package com.jinu.commerce.domain.cart.controller;
 
-import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
 import com.jinu.commerce.domain.cart.dto.request.CartItemEditRequestDto;
+import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
 import com.jinu.commerce.domain.cart.dto.response.CartItemResponseDto;
 import com.jinu.commerce.domain.cart.entity.Cart;
 import com.jinu.commerce.domain.cart.entity.CartItem;
@@ -50,10 +50,10 @@ public class CartController {
         return ResponseEntity.ok(responseBodyDto.success("수량변경 완료"));
     }
 
-    /*@PatchMapping("/return/{orderId}")
-    public ResponseEntity<ResponseBodyDto> returnOrder(@PathVariable(name = "orderId") Long orderId) {
-        this.cartService.changeStatusToReturn(orderId);
+    @DeleteMapping("/{cartItemId}")
+    public ResponseEntity<ResponseBodyDto> deleteCartItem(@PathVariable(name = "cartItemId") Long cartItemId) {
+        this.cartDetailService.deleteCartItemById(cartItemId);
 
-        return ResponseEntity.ok(responseBodyDto.success("반품완료"));
-    }*/
+        return ResponseEntity.ok(responseBodyDto.success("삭제완료"));
+    }
 }

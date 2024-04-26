@@ -1,7 +1,7 @@
 package com.jinu.commerce.domain.cart.service;
 
-import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
 import com.jinu.commerce.domain.cart.dto.request.CartItemEditRequestDto;
+import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
 import com.jinu.commerce.domain.cart.entity.Cart;
 import com.jinu.commerce.domain.cart.entity.CartItem;
 import com.jinu.commerce.domain.cart.repository.CartDetailRepository;
@@ -58,11 +58,18 @@ public class CartDetailServiceImpl implements CartDetailService {
         cartItem.editQty(requestDto.getQty());
     }
 
+    @Override
+    @Transactional
+    public void deleteCartItemById(Long cartItemId) {
+        log.info("장바구나 이이템 삭제");
+
+        this.repository.deleteById(cartItemId);
+    }
 
     @Override
     @Transactional(readOnly = true)
     public CartItem getCartItemById(Long cartItemId) {
-        log.info("아이디로 장바구나 이이템 조회");
+        log.info("장바구나 이이템 아이디로 조회");
 
         return this.repository.findById(cartItemId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
