@@ -38,11 +38,11 @@ public class CartDetailServiceImpl implements CartDetailService {
         this.repository.saveAll(cartItems);
     }
 
-/*    @Override
-    @Transactional(readOnly = true)
-    public List<CartItem> getOrderDetailsByOrder(Cart cart) {
-        log.info("주문 상세조회");
+    @Override
+    @Transactional
+    public List<CartItem> getAllCartItemsByCart(Cart cart) {
+        log.info("장바구니 조회");
 
-        return this.repository.findAllByOrder(cart);
-    }*/
+        return this.repository.findAllByCart(cart);
+    }
 }
