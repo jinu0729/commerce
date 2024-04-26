@@ -8,43 +8,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "`order`")
 @Setter
 @Getter
 @NoArgsConstructor
 public class Order  extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column
-    private Long price;
-
-    @Column
+    @Column(nullable = false)
     private OrderStatus status;
-
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails = new ArrayList<>();
 
 
     @Builder
-    public Order(User user, Long price, OrderStatus status, List<OrderDetail> orderDetails) {
+    public Order(User user, OrderStatus status) {
         this.user = user;
-        this.price = price;
         this.status = status;
-        this.orderDetails = orderDetails;
-    }
-
-    public void addOrderDetails(OrderDetail orderDetail) {
-        this.orderDetails.add(orderDetail);
-        orderDetail.setOrder(this);
     }
 }

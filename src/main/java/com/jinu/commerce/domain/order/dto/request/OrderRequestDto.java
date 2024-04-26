@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class OrderRequestDto {
-    private Long productId;
+    private Product product;
     private Long qty;
 
 
     @Builder
-    public OrderRequestDto(Long productId, Long qty) {
-        this.productId = productId;
+    public OrderRequestDto(Product product, Long qty) {
+        this.product = product;
         this.qty = qty;
     }
 }
