@@ -22,6 +22,8 @@ public enum ErrorCode {
 
     // order
     NOT_FOUND_ORDER(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_ORDER", "해당주문 없음"),
+    CAN_NOT_CANCEL(HttpStatus.BAD_REQUEST.value(), "CAN_NOT_CANCEL", "현 상태에서 취소 불가"),
+    CAN_NOT_RETURN(HttpStatus.BAD_REQUEST.value(), "CAN_NOT_RETURN", "현 상태에서 반품 불가"),
 
     // token
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "EXPIRED_TOKEN", "만료된 토큰")

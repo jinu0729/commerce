@@ -1,7 +1,6 @@
 package com.jinu.commerce.domain.order.service;
 
 import com.jinu.commerce.domain.order.entity.Order;
-import com.jinu.commerce.domain.order.entity.OrderStatus;
 import com.jinu.commerce.domain.order.repository.OrderRepository;
 import com.jinu.commerce.global.exception.CustomException;
 import com.jinu.commerce.global.exception.ErrorCode;
@@ -26,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = Order.builder()
                 .user(userDetails.getUser())
-                .status(OrderStatus.ORDER_COMPLETED)
+                .status("주문완료")
                 .build();
 
         this.repository.save(order);
@@ -43,12 +42,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Order getOrderByOrderId(Long orderId) {
         log.info("orderId로 주문 조회");
 
         return this.repository.findById(orderId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_ORDER)
         );
+    }
+
+    @Override
+    @Transactional
+    public void changeStringToCancel(Long orderId) {
+        log.info("주문취소");
+
+        Order order = this.getOrderByOrderId(orderId);
+
+        if(!order.getStatus().equals("주문완료")) {
+            throw new CustomException(ErrorCode.CAN_NOT_CANCEL);
+        }
+
+        order.updateStatus("주문취소");
     }
 }

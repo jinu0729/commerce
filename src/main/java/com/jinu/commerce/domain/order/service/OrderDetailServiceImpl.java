@@ -39,41 +39,10 @@ public class OrderDetailServiceImpl implements OrderDetailService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDetail> getOrderDetailsByOrder(Order order) {
         log.info("주문 상세조회");
 
         return this.repository.findAllByOrder(order);
     }
-
-
-
-    /*@Override
-    @Transactional(readOnly = true)
-    public ResponseEntity<ResponseBodyDto> getOrderDetailByOrderId(Long orderId) {
-        log.info("주문 상세조회");
-
-        Order order = this.findById(orderId);
-
-        List<OrderDetailResponseDto> orderDetails = order.getOrderDetails().stream()
-                .map(orderDetail -> OrderDetailResponseDto.builder()
-                        .orderDetailId(orderDetail.getOrderDetailId())
-                        .product(ProductResponseDto.builder()
-                                .productId(orderDetail.getProduct().getProductId())
-                                .title(orderDetail.getProduct().getTitle())
-                                .price(orderDetail.getProduct().getPrice())
-                                .stock(orderDetail.getProduct().getStock())
-                                .build())
-                        .qty(orderDetail.getQty())
-                        .build())
-                .toList();
-
-        OrderResponseDto responseDto = OrderResponseDto.builder()
-                .orderId(order.getOrderId())
-                .price(order.getPrice())
-                .status(order.getStatus())
-                .orderDetails(orderDetails)
-                .build();
-
-        return ResponseEntity.ok(responseBodyDto.successWithResult("상세조회 완료", responseDto));
-    }*/
 }

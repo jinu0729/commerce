@@ -51,4 +51,11 @@ public class OrderController {
 
         return ResponseEntity.ok(responseBodyDto.successWithResult("상세조회 완료", responseDtos));
     }
+
+    @PatchMapping("/cancel/{orderId}")
+    public ResponseEntity<ResponseBodyDto> cancelOrder(@PathVariable(name = "orderId") Long orderId) {
+        this.orderService.changeStringToCancel(orderId);
+
+        return ResponseEntity.ok(responseBodyDto.success("취소완료"));
+    }
 }

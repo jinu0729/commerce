@@ -11,4 +11,6 @@ public interface OrderService {
     List<Order> getAllOrders(UserDetailsImpl userDetails);
 
     Order getOrderByOrderId(Long orderId);
+
+    void changeStringToCancel(Long orderId);
 }

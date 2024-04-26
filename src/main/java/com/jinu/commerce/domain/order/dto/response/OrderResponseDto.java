@@ -1,7 +1,6 @@
 package com.jinu.commerce.domain.order.dto.response;
 
 import com.jinu.commerce.domain.order.entity.Order;
-import com.jinu.commerce.domain.order.entity.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 public class OrderResponseDto {
     private Long orderId;
 
-    private OrderStatus status;
+    private String status;
 
     private LocalDateTime createdAt;
 
@@ -22,7 +21,7 @@ public class OrderResponseDto {
 
 
     @Builder
-    public OrderResponseDto(Long orderId, OrderStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public OrderResponseDto(Long orderId, String status, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.orderId = orderId;
         this.status = status;
         this.createdAt = createdAt;
@@ -32,7 +31,7 @@ public class OrderResponseDto {
     public static List<OrderResponseDto> crateOrdersIntoResponseDtos(List<Order> orders) {
         return orders.stream()
                 .map(order -> OrderResponseDto.builder()
-                        .orderId(order.getId())
+                        .orderId(order.getOrderId())
                         .status(order.getStatus())
                         .createdAt(order.getCreatedAt())
                         .updatedAt(order.getUpdatedAt())

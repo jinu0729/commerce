@@ -10,4 +10,6 @@ import java.util.List;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     @EntityGraph(attributePaths = "product")
     List<OrderDetail> findAllByOrder(Order order);
+
+    void deleteAllByOrder(Order order);
 }

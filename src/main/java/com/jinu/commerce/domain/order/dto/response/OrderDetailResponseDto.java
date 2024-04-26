@@ -29,7 +29,7 @@ public class OrderDetailResponseDto {
     public static List<OrderDetailResponseDto> createOrderDetailsIntoOrderDetailResponseDtos(List<OrderDetail> orderDetails) {
         return orderDetails.stream()
                 .map(orderDetail -> OrderDetailResponseDto.builder()
-                        .orderDetailId(orderDetail.getId())
+                        .orderDetailId(orderDetail.getOrderDetailId())
                         .product(orderDetail.getProduct())
                         .qty(orderDetail.getQty())
                         .build())
