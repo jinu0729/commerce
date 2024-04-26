@@ -23,10 +23,7 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(UserDetailsImpl userDetails) {
         log.info("주문생성");
 
-        Order order = Order.builder()
-                .user(userDetails.getUser())
-                .status("주문완료")
-                .build();
+        Order order = Order.builder().user(userDetails.getUser()).status("주문완료").build();
 
         this.repository.save(order);
 
@@ -46,22 +43,37 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrderByOrderId(Long orderId) {
         log.info("orderId로 주문 조회");
 
-        return this.repository.findById(orderId).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_ORDER)
-        );
+        return this.repository.findById(orderId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
     }
 
     @Override
     @Transactional
-    public void changeStringToCancel(Long orderId) {
+    public void changeStatusToCancel(Long orderId) {
         log.info("주문취소");
 
         Order order = this.getOrderByOrderId(orderId);
 
-        if(!order.getStatus().equals("주문완료")) {
-            throw new CustomException(ErrorCode.CAN_NOT_CANCEL);
+        if (order.getStatus().equals("주문완료")) {
+            order.updateStatus("주문취소");
+            return;
         }
 
-        order.updateStatus("주문취소");
+        throw new CustomException(ErrorCode.CAN_NOT_CANCEL);
+    }
+
+    @Override
+    @Transactional
+    public void changeStatusToReturn(Long orderId) {
+        log.info("주문취소");
+
+        Order order = this.getOrderByOrderId(orderId);
+
+        if (order.getStatus().equals("배송중") || order.getStatus().equals("배송완료")) {
+            order.updateStatus("반품완료");
+            return;
+        }
+
+        throw new CustomException(ErrorCode.CAN_NOT_RETURN);
     }
 }
