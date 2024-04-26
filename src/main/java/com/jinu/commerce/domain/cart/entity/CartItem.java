@@ -1,4 +1,4 @@
-package com.jinu.commerce.domain.order.entity;
+package com.jinu.commerce.domain.cart.entity;
 
 import com.jinu.commerce.domain.product.entity.Product;
 import com.jinu.commerce.global.util.Timestamped;
@@ -12,14 +12,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderDetail extends Timestamped {
+public class CartItem extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderDetailId;
+    private Long cartItemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
@@ -30,9 +30,9 @@ public class OrderDetail extends Timestamped {
 
 
     @Builder
-    public OrderDetail(Product product, Order order, Long qty) {
+    public CartItem(Cart cart, Product product, Long qty) {
+        this.cart = cart;
         this.product = product;
-        this.order = order;
         this.qty = qty;
     }
 }
