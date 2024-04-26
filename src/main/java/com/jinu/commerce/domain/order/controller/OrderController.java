@@ -1,8 +1,10 @@
 package com.jinu.commerce.domain.order.controller;
 
 import com.jinu.commerce.domain.order.dto.request.OrderRequestDto;
+import com.jinu.commerce.domain.order.dto.response.OrderDetailResponseDto;
 import com.jinu.commerce.domain.order.dto.response.OrderResponseDto;
 import com.jinu.commerce.domain.order.entity.Order;
+import com.jinu.commerce.domain.order.entity.OrderDetail;
 import com.jinu.commerce.domain.order.service.OrderDetailService;
 import com.jinu.commerce.domain.order.service.OrderService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
@@ -33,13 +35,20 @@ public class OrderController {
 
     @GetMapping()
     public ResponseEntity<ResponseBodyDto> getAllOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<OrderResponseDto> responseDtos = this.orderService.getAllOrders(userDetails);
+        List<Order> orders = this.orderService.getAllOrders(userDetails);
+        List<OrderResponseDto> responseDtos = OrderResponseDto.crateOrdersIntoResponseDtos(orders);
 
         return ResponseEntity.ok(responseBodyDto.successWithResult("전체조회 완료", responseDtos));
     }
 
-    /*@GetMapping("/{orderId}")
-    public ResponseEntity<ResponseBodyDto> getOrderDetailByOrderId(@PathVariable(name = "orderId") Long orderId) {
-        return this.orderService.getOrderDetailByOrderId(orderId);
-    }*/
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ResponseBodyDto> getOrderDetailsByOrder(@PathVariable(name = "orderId") Long orderId) {
+        Order order = this.orderService.getOrderByOrderId(orderId);
+
+        List<OrderDetail> orderDetails = this.orderDetailService.getOrderDetailsByOrder(order);
+        List<OrderDetailResponseDto> responseDtos =
+                OrderDetailResponseDto.createOrderDetailsIntoOrderDetailResponseDtos(orderDetails);
+
+        return ResponseEntity.ok(responseBodyDto.successWithResult("상세조회 완료", responseDtos));
+    }
 }

@@ -1,6 +1,5 @@
 package com.jinu.commerce.domain.order.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jinu.commerce.domain.order.entity.Order;
 import com.jinu.commerce.domain.order.entity.OrderStatus;
 import lombok.Builder;
