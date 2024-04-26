@@ -1,7 +1,9 @@
 package com.jinu.commerce.domain.cart.controller;
 
 import com.jinu.commerce.domain.cart.dto.request.CartRequestDto;
+import com.jinu.commerce.domain.cart.dto.response.CartItemResponseDto;
 import com.jinu.commerce.domain.cart.entity.Cart;
+import com.jinu.commerce.domain.cart.entity.CartItem;
 import com.jinu.commerce.domain.cart.service.CartDetailService;
 import com.jinu.commerce.domain.cart.service.CartService;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
@@ -9,10 +11,7 @@ import com.jinu.commerce.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,15 +32,17 @@ public class CartController {
         return ResponseEntity.ok(responseBodyDto.success("장바구니 등록"));
     }
 
-    /*@GetMapping()
+    @GetMapping()
     public ResponseEntity<ResponseBodyDto> getAllOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<Cart> carts = this.cartService.getAllOrders(userDetails);
-        List<CartResponseDto> responseDtos = CartResponseDto.crateOrdersIntoResponseDtos(carts);
+        Cart cart = this.cartService.getCart(userDetails);
+
+        List<CartItem> cartItems = this.cartDetailService.getAllCartItemsByCart(cart);
+        List<CartItemResponseDto> responseDtos = CartItemResponseDto.crateCartItemsIntoResponseDtos(cartItems);
 
         return ResponseEntity.ok(responseBodyDto.successWithResult("전체조회 완료", responseDtos));
     }
 
-    @GetMapping("/{orderId}")
+    /* @GetMapping("/{orderId}")
     public ResponseEntity<ResponseBodyDto> getOrderDetailsByOrder(@PathVariable(name = "orderId") Long orderId) {
         Cart cart = this.cartService.getOrderByOrderId(orderId);
 
