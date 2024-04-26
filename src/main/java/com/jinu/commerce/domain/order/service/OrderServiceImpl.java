@@ -1,28 +1,16 @@
 package com.jinu.commerce.domain.order.service;
 
-import com.jinu.commerce.domain.order.dto.request.OrderRequestDto;
-import com.jinu.commerce.domain.order.dto.response.OrderDetailResponseDto;
 import com.jinu.commerce.domain.order.dto.response.OrderResponseDto;
 import com.jinu.commerce.domain.order.entity.Order;
-import com.jinu.commerce.domain.order.entity.OrderDetail;
 import com.jinu.commerce.domain.order.entity.OrderStatus;
-import com.jinu.commerce.domain.order.repository.OrderDetailRepository;
 import com.jinu.commerce.domain.order.repository.OrderRepository;
-import com.jinu.commerce.domain.product.dto.response.ProductResponseDto;
-import com.jinu.commerce.domain.product.entity.Product;
-import com.jinu.commerce.domain.product.service.ProductService;
-import com.jinu.commerce.domain.user.entity.User;
 import com.jinu.commerce.global.dto.ResponseBodyDto;
-import com.jinu.commerce.global.exception.CustomException;
-import com.jinu.commerce.global.exception.ErrorCode;
 import com.jinu.commerce.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j(topic = "OrderServiceImpl")
@@ -48,25 +36,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    /*@Override
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<ResponseBodyDto> getAllOrders(UserDetailsImpl userDetails) {
+    public List<OrderResponseDto> getAllOrders(UserDetailsImpl userDetails) {
         log.info("주문 전체조회");
 
-        User user = userDetails.getUser();
+        List<Order> orders = this.orderRepository.findAllByUser(userDetails.getUser());
 
-        List<OrderResponseDto> responseDtos = this.orderRepository.findAllByUser(user).stream()
-                .map(order -> OrderResponseDto.builder()
-                        .orderId(order.getOrderId())
-                        .price(order.getPrice())
-                        .status(order.getStatus())
-                        .build())
-                .toList();
-
-        return ResponseEntity.ok(responseBodyDto.successWithResult("전체조회 완료", responseDtos));
+        return OrderResponseDto.crateOrdersIntoResponseDtos(orders);
     }
 
-    @Override
+    /*@Override
     @Transactional(readOnly = true)
     public ResponseEntity<ResponseBodyDto> getOrderDetailByOrderId(Long orderId) {
         log.info("주문 상세조회");
