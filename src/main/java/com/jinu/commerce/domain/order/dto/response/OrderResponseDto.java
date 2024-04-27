@@ -32,7 +32,7 @@ public class OrderResponseDto {
         return orders.stream()
                 .map(order -> OrderResponseDto.builder()
                         .orderId(order.getOrderId())
-                        .status(order.getStatus())
+                        .status(order.getStatus().getStatus())
                         .createdAt(order.getCreatedAt())
                         .updatedAt(order.getUpdatedAt())
                         .build())

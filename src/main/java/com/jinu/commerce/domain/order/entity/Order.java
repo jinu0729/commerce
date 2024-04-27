@@ -21,17 +21,18 @@ public class Order  extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private Status status;
 
 
     @Builder
-    public Order(User user, String status) {
+    public Order(User user, Status status) {
         this.user = user;
         this.status = status;
     }
 
-    public void updateStatus(String status) {
+    public void updateStatus(Status status) {
         this.status = status;
     }
 }
