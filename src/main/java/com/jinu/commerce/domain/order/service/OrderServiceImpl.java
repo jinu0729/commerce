@@ -1,12 +1,14 @@
 package com.jinu.commerce.domain.order.service;
 
 import com.jinu.commerce.domain.order.entity.Order;
+import com.jinu.commerce.domain.order.entity.Status;
 import com.jinu.commerce.domain.order.repository.OrderRepository;
 import com.jinu.commerce.global.exception.CustomException;
 import com.jinu.commerce.global.exception.ErrorCode;
 import com.jinu.commerce.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,9 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(UserDetailsImpl userDetails) {
         log.info("주문생성");
 
-        Order order = Order.builder().user(userDetails.getUser()).status("주문완료").build();
+        Order order = Order.builder()
+                .user(userDetails.getUser())
+                .status(Status.ORDER_COMPLETE).build();
 
         this.repository.save(order);
 
@@ -54,8 +58,8 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = this.getOrderByOrderId(orderId);
 
-        if (order.getStatus().equals("주문완료")) {
-            order.updateStatus("주문취소");
+        if (order.getStatus() == Status.ORDER_COMPLETE) {
+            order.updateStatus(Status.CANCEL);
             return;
         }
 
@@ -69,11 +73,27 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = this.getOrderByOrderId(orderId);
 
-        if (order.getStatus().equals("배송중") || order.getStatus().equals("배송완료")) {
-            order.updateStatus("반품완료");
+        if (order.getStatus() == Status.IN_DELIVERY || order.getStatus() == Status.DELIVERED) {
+            order.updateStatus(Status.RETURN);
             return;
         }
 
         throw new CustomException(ErrorCode.CAN_NOT_RETURN);
+    }
+
+    @Override
+    @Transactional
+    @Scheduled(cron = "@daily")
+    public void updateOrderStatus() {
+        log.info("주문 상태 업데이트");
+
+        List<Order> orders = this.repository.findAll();
+
+        for (Order order : orders) {
+            switch (order.getStatus()) {
+                case ORDER_COMPLETE -> order.updateStatus(Status.IN_DELIVERY);
+                case IN_DELIVERY -> order.updateStatus(Status.DELIVERED);
+            }
+        }
     }
 }

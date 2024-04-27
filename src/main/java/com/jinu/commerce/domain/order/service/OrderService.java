@@ -15,4 +15,6 @@ public interface OrderService {
     void changeStatusToCancel(Long orderId);
 
     void changeStatusToReturn(Long orderId);
+
+    void updateOrderStatus();
 }
