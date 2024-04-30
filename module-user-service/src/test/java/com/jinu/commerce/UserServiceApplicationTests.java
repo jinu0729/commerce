@@ -6,7 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootTest
 @EnableCaching
-class CommerceApplicationTests {
+class UserServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
