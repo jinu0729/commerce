@@ -1,4 +1,4 @@
-package com.jinu.commerce.global.cookie;
+package com.jinu.commercecommon.global.cookie;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

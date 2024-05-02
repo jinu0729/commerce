@@ -1,8 +1,8 @@
-package com.jinu.commerce.global.jwt;
+package com.jinu.commercecommon.global.jwt;
 
 import com.jinu.commerce.domain.auth.service.AuthService;
-import com.jinu.commerce.global.exception.CustomException;
-import com.jinu.commerce.global.exception.ErrorCode;
+import com.jinu.commercecommon.global.exception.CustomException;
+import com.jinu.commercecommon.global.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;

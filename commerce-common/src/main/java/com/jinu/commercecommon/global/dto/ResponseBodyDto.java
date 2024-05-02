@@ -1,4 +1,4 @@
-package com.jinu.commerce.global.dto;
+package com.jinu.commercecommon.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class ResponseBodyDto {
     }
 
     public ResponseBodyDto success(String message) {
-        return ResponseBodyDto.builder()
+        return builder()
                 .status(HttpStatus.OK.value())
                 .code(HttpStatus.OK.getReasonPhrase())
                 .message(message)
@@ -37,7 +37,7 @@ public class ResponseBodyDto {
     }
 
     public ResponseBodyDto successWithResult(String message, Object result) {
-        return ResponseBodyDto.builder()
+        return builder()
                 .status(HttpStatus.OK.value())
                 .code(HttpStatus.OK.getReasonPhrase())
                 .message(message)

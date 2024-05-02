@@ -1,7 +1,7 @@
-package com.jinu.commerce.global.jwt;
+package com.jinu.commercecommon.global.jwt;
 
-import com.jinu.commerce.global.cookie.CookieUtil;
-import com.jinu.commerce.global.security.UserDetailsServiceImpl;
+import com.jinu.commercecommon.global.cookie.CookieUtil;
+import com.jinu.commercecommon.global.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

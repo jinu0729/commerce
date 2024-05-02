@@ -1,4 +1,4 @@
-package com.jinu.commerce.global.security;
+package com.jinu.commercecommon.global.security;
 
 import com.jinu.commerce.domain.user.entity.User;
 import com.jinu.commerce.domain.user.repository.UserRepository;
