@@ -1,9 +1,9 @@
-package com.jinu.commerce.global.jwt;
+package com.jinu.commercecommon.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinu.commerce.domain.auth.dto.request.SignInRequestDto;
-import com.jinu.commerce.global.cookie.CookieUtil;
-import com.jinu.commerce.global.security.UserDetailsImpl;
+import com.jinu.commercecommon.global.cookie.CookieUtil;
+import com.jinu.commercecommon.global.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

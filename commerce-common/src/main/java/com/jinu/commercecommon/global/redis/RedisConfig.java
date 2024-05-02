@@ -1,4 +1,4 @@
-package com.jinu.commerce.global.redis;
+package com.jinu.commercecommon.global.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;

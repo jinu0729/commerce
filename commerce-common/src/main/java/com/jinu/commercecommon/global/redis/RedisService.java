@@ -1,4 +1,4 @@
-package com.jinu.commerce.global.redis;
+package com.jinu.commercecommon.global.redis;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

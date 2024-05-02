@@ -1,4 +1,4 @@
-package com.jinu.commerce.global.exception;
+package com.jinu.commercecommon.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
-package com.jinu.commerce.global.security;
+package com.jinu.commercecommon.global.security;
 
-import com.jinu.commerce.global.cookie.CookieUtil;
-import com.jinu.commerce.global.jwt.JwtAuthenticationFilter;
-import com.jinu.commerce.global.jwt.JwtAuthorizationFilter;
-import com.jinu.commerce.global.jwt.JwtUtil;
+import com.jinu.commercecommon.global.cookie.CookieUtil;
+import com.jinu.commercecommon.global.jwt.JwtAuthenticationFilter;
+import com.jinu.commercecommon.global.jwt.JwtAuthorizationFilter;
+import com.jinu.commercecommon.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
