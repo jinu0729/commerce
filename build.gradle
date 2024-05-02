@@ -73,3 +73,9 @@ project(':commerce-user-service') {
         implementation project(':commerce-common')
     }
 }
+
+project(':commerce-product-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
+}

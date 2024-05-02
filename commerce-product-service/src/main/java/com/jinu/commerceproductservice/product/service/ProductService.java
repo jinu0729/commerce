@@ -1,7 +1,7 @@
-package com.jinu.commerce.domain.product.service;
+package com.jinu.commerceproductservice.product.service;
 
-import com.jinu.commerce.domain.product.entity.Product;
-import com.jinu.commerce.global.dto.ResponseBodyDto;
+import com.jinu.commercecommon.dto.ResponseBodyDto;
+import com.jinu.commerceproductservice.product.entity.Product;
 import org.springframework.http.ResponseEntity;
 
 public interface ProductService {

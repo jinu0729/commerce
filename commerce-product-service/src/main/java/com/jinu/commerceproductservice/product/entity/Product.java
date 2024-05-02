@@ -1,6 +1,6 @@
-package com.jinu.commerce.domain.product.entity;
+package com.jinu.commerceproductservice.product.entity;
 
-import com.jinu.commerce.global.util.Timestamped;
+import com.jinu.commercecommon.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
