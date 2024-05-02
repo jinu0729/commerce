@@ -1,11 +1,11 @@
-package com.jinu.commerce.domain.product.service;
+package com.jinu.commerceproductservice.product.service;
 
-import com.jinu.commerce.domain.product.dto.response.ProductResponseDto;
-import com.jinu.commerce.domain.product.entity.Product;
-import com.jinu.commerce.domain.product.repository.ProductRepository;
-import com.jinu.commerce.global.dto.ResponseBodyDto;
-import com.jinu.commerce.global.exception.CustomException;
-import com.jinu.commerce.global.exception.ErrorCode;
+import com.jinu.commercecommon.dto.ResponseBodyDto;
+import com.jinu.commercecommon.exception.CustomException;
+import com.jinu.commercecommon.exception.ErrorCode;
+import com.jinu.commerceproductservice.product.dto.response.ProductResponseDto;
+import com.jinu.commerceproductservice.product.entity.Product;
+import com.jinu.commerceproductservice.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

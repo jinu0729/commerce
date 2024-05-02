@@ -1,4 +1,4 @@
-package com.jinu.commerce.domain.product.dto.response;
+package com.jinu.commerceproductservice.product.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
