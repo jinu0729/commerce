@@ -48,6 +48,7 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.security:spring-security-test'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
     }
 
     // Spring Cloud 버전 설정
@@ -65,4 +66,10 @@ subprojects {
     // Boot JAR 및 JAR 설정
     bootJar { enabled = false }
     jar { enabled = true }
+}
+
+project(':commerce-user-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
 }
