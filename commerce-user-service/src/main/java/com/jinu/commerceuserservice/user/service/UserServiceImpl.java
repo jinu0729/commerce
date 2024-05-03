@@ -27,7 +27,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ResponseBodyDto responseBodyDto;
     private final EmailService emailService;
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        return ResponseEntity.ok(responseBodyDto.success("가입완료"));
+        return ResponseEntity.ok(ResponseBodyDto.success("가입완료"));
     }
 
     @Override
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = email / value = code )
         redisService.setValues(email, code, Duration.ofMillis(this.authCodeExpirationMillis));
 
-        return ResponseEntity.ok(responseBodyDto.success("발송완료"));
+        return ResponseEntity.ok(ResponseBodyDto.success("발송완료"));
     }
 
     @Override
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
         if(!redisCode.equals(code)) throw new CustomException(ErrorCode.NOT_MATCHED_CODE);
 
-        return ResponseEntity.ok(responseBodyDto.success("인증완료"));
+        return ResponseEntity.ok(ResponseBodyDto.success("인증완료"));
     }
 
     @Override
@@ -96,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
         user.updateByInfo(requestDto);
 
-        return ResponseEntity.ok(responseBodyDto.success("개인정보 업데이트 완료"));
+        return ResponseEntity.ok(ResponseBodyDto.success("개인정보 업데이트 완료"));
     }
 
     @Override
@@ -111,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
         user.updateByPassword(passwordEncoder.encode(requestDto.getNewPassword()));
 
-        return ResponseEntity.ok(responseBodyDto.success("패스워드 업데이트 완료"));
+        return ResponseEntity.ok(ResponseBodyDto.success("패스워드 업데이트 완료"));
     }
 
     @Override

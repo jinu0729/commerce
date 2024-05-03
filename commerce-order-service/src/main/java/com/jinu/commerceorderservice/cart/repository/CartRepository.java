@@ -1,7 +1,7 @@
 package com.jinu.commerceorderservice.cart.repository;
 
 import com.jinu.commerceorderservice.cart.entity.Cart;
-import com.jinu.commerce.domain.user.entity.User;
+import com.jinu.commerceuserservice.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

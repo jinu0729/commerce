@@ -1,7 +1,7 @@
 package com.jinu.commerceorderservice.order.entity;
 
-import com.jinu.commerce.domain.user.entity.User;
-import com.jinu.commerce.global.util.Timestamped;
+import com.jinu.commercecommon.util.Timestamped;
+import com.jinu.commerceuserservice.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
