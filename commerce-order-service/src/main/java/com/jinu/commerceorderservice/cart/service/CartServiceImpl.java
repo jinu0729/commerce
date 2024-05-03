@@ -2,8 +2,8 @@ package com.jinu.commerceorderservice.cart.service;
 
 import com.jinu.commerceorderservice.cart.entity.Cart;
 import com.jinu.commerceorderservice.cart.repository.CartRepository;
-import com.jinu.commerce.domain.user.entity.User;
-import com.jinu.commerce.global.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

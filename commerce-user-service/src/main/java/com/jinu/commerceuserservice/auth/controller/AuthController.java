@@ -1,7 +1,7 @@
 package com.jinu.commerceuserservice.auth.controller;
 
-import com.jinu.commercecommon.global.security.UserDetailsImpl;
 import com.jinu.commerceuserservice.auth.service.AuthService;
+import com.jinu.commerceuserservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

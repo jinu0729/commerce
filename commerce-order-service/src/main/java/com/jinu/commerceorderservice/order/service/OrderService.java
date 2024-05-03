@@ -1,7 +1,7 @@
 package com.jinu.commerceorderservice.order.service;
 
 import com.jinu.commerceorderservice.order.entity.Order;
-import com.jinu.commerce.global.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.security.UserDetailsImpl;
 
 import java.util.List;
 

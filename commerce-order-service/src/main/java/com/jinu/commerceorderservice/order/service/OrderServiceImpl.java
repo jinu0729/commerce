@@ -1,11 +1,11 @@
 package com.jinu.commerceorderservice.order.service;
 
+import com.jinu.commercecommon.exception.CustomException;
+import com.jinu.commercecommon.exception.ErrorCode;
 import com.jinu.commerceorderservice.order.entity.Order;
 import com.jinu.commerceorderservice.order.entity.Status;
 import com.jinu.commerceorderservice.order.repository.OrderRepository;
-import com.jinu.commerce.global.exception.CustomException;
-import com.jinu.commerce.global.exception.ErrorCode;
-import com.jinu.commerce.global.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

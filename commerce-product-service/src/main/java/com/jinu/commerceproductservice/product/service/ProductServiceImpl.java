@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final ResponseBodyDto responseBodyDto;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
                         .build())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseBodyDto.successWithResult("전체조회 완료", responseDtoList));
+        return ResponseEntity.ok(ResponseBodyDto.successWithResult("전체조회 완료", responseDtoList));
     }
 
     @Override
@@ -52,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
                 .stock(product.getStock())
                 .build();
 
-        return ResponseEntity.ok(responseBodyDto.successWithResult("상세조회 완료", responseDto));
+        return ResponseEntity.ok(ResponseBodyDto.successWithResult("상세조회 완료", responseDto));
     }
 
     @Override

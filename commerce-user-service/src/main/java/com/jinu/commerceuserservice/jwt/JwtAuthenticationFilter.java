@@ -1,9 +1,9 @@
 package com.jinu.commerceuserservice.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jinu.commerce.domain.auth.dto.request.SignInRequestDto;
 import com.jinu.commercecommon.cookie.CookieUtil;
-import com.jinu.commercecommon.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.auth.dto.request.SignInRequestDto;
+import com.jinu.commerceuserservice.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

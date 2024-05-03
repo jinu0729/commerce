@@ -1,12 +1,12 @@
 package com.jinu.commerceorderservice.cart.service;
 
+import com.jinu.commercecommon.exception.CustomException;
+import com.jinu.commercecommon.exception.ErrorCode;
 import com.jinu.commerceorderservice.cart.dto.request.CartItemEditRequestDto;
 import com.jinu.commerceorderservice.cart.dto.request.CartRequestDto;
 import com.jinu.commerceorderservice.cart.entity.Cart;
 import com.jinu.commerceorderservice.cart.entity.CartItem;
 import com.jinu.commerceorderservice.cart.repository.CartDetailRepository;
-import com.jinu.commerce.global.exception.CustomException;
-import com.jinu.commerce.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
-@Component
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,7 +26,7 @@ public class ResponseBodyDto {
         this.result = result;
     }
 
-    public ResponseBodyDto success(String message) {
+    public static ResponseBodyDto success(String message) {
         return builder()
                 .status(HttpStatus.OK.value())
                 .code(HttpStatus.OK.getReasonPhrase())
@@ -36,7 +34,7 @@ public class ResponseBodyDto {
                 .build();
     }
 
-    public ResponseBodyDto successWithResult(String message, Object result) {
+    public static ResponseBodyDto successWithResult(String message, Object result) {
         return builder()
                 .status(HttpStatus.OK.value())
                 .code(HttpStatus.OK.getReasonPhrase())

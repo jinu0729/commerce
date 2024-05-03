@@ -1,7 +1,7 @@
 package com.jinu.commerceuserservice.jwt;
 
 import com.jinu.commercecommon.cookie.CookieUtil;
-import com.jinu.commercecommon.security.UserDetailsServiceImpl;
+import com.jinu.commerceuserservice.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

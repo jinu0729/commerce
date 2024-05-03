@@ -1,8 +1,8 @@
 package com.jinu.commerceorderservice.cart.service;
 
 import com.jinu.commerceorderservice.cart.entity.Cart;
-import com.jinu.commerce.domain.user.entity.User;
-import com.jinu.commerce.global.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.security.UserDetailsImpl;
+import com.jinu.commerceuserservice.user.entity.User;
 
 public interface CartService {
     Cart createCart(User user);
