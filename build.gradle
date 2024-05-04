@@ -1,71 +1,27 @@
 plugins {
-    // Java 플러그인: 자바 소스 코드 컴파일 및 실행 관련 기능 제공
     id 'java'
-    // Spring Boot 플러그인: 스프링 부트 애플리케이션 빌드 및 실행 관련 기능 제공
     id 'org.springframework.boot' version '3.2.4'
-    // Spring Dependency Management 플러그인: 의존성 관리를 위한 설정 제공
     id 'io.spring.dependency-management' version '1.1.4'
-}
-
-repositories {
-    // Maven Central 저장소 사용
-    mavenCentral()
-}
-
-configurations {
-    // 컴파일 시에만 필요한 의존성 설정
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
 }
 
 // 하위 프로젝트에 대한 설정
 subprojects {
     // 하위 프로젝트의 그룹과 버전 설정
     group = 'com.jinu'
-    version = '0.0.1'
+    version = '0.0.1-SNAPSHOT'
+
     // 소스 호환성 설정
     sourceCompatibility = '21'
-
-    // 플러그인 적용
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'java-test-fixtures'
 
     repositories {
         // Maven Central 저장소 사용
         mavenCentral()
     }
 
-	// 공통 의존성 설정
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        testImplementation 'org.projectlombok:lombok:1.18.26'
-        compileOnly 'org.projectlombok:lombok'
-        runtimeOnly 'com.mysql:mysql-connector-j'
-        annotationProcessor 'org.projectlombok:lombok'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation 'org.springframework.security:spring-security-test'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
-    }
-
-    // Spring Cloud 버전 설정
-    ext {
-        set('springCloudVersion', "2023.0.1")
-    }
-
-    // Spring Cloud 의존성 관리 설정
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
-    }
-
-    // Boot JAR 및 JAR 설정
-    bootJar { enabled = false }
-    jar { enabled = true }
+    // 플러그인 적용
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 }
 
 project(':commerce-user-service') {
@@ -77,13 +33,5 @@ project(':commerce-user-service') {
 project(':commerce-product-service') {
     dependencies {
         implementation project(':commerce-common')
-    }
-}
-
-project(':commerce-order-service') {
-    dependencies {
-        implementation project(':commerce-common')
-        implementation project(':commerce-user-service')
-        implementation project(':commerce-product-service')
     }
 }

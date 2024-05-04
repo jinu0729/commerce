@@ -1,7 +1,7 @@
 package com.jinu.commerceuserservice.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinu.commercecommon.util.Timestamped;
+import com.jinu.commerceuserservice.util.Timestamped;
 import com.jinu.commerceuserservice.user.dto.request.UpdateInfoRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;

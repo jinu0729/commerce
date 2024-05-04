@@ -1,6 +1,6 @@
 package com.jinu.commerceuserservice.auth.entity;
 
-import com.jinu.commercecommon.util.Timestamped;
+import com.jinu.commerceuserservice.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

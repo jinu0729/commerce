@@ -1,4 +1,4 @@
-package com.jinu.commercecommon.config;
+package com.jinu.commerceuserservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
