@@ -4,3 +4,5 @@ include 'commerce-user-service'
 include 'commerce-product-service'
 include 'commerce-order-service'
 include 'commerce-api-gateway'
+include 'commerce-discovery-service'
+
