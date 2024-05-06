@@ -24,6 +24,12 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
 }
 
+project(':commerce-auth-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
+}
+
 project(':commerce-user-service') {
     dependencies {
         implementation project(':commerce-common')
