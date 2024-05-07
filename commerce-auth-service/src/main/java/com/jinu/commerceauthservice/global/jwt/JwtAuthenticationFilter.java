@@ -28,11 +28,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         log.info("로그인 시도");
 
         try {
-            SignInRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SignInRequestDto.class);
+            SignInRequestDto requestDto = new ObjectMapper().readValue(req.getInputStream(), SignInRequestDto.class);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -48,23 +48,24 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         log.info("로그인 성공 및 JWT 생성");
 
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
+        Long userId = ((UserDetailsImpl) authResult.getPrincipal()).getUserId();
         // UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        String accessToken = jwtUtil.createAccessToken(username);
-        String refreshToken = jwtUtil.createRefreshToken(username);
+        String accessToken = jwtUtil.createAccessToken(username, userId);
+        String refreshToken = jwtUtil.createRefreshToken(username, userId);
 
-        cookieUtil.addJwtToCookie("Authorization", accessToken, response);
-        cookieUtil.addJwtToCookie("Refresh-Token", refreshToken, response);
+        cookieUtil.addJwtToCookie("Authorization", accessToken, res);
+        cookieUtil.addJwtToCookie("Refresh-Token", refreshToken, res);
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res, AuthenticationException failed) throws IOException, ServletException {
         log.info("로그인 실패");
 
-        response.setStatus(401);
+        res.setStatus(401);
     }
 }

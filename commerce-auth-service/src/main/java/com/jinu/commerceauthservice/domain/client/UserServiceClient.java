@@ -1,6 +1,6 @@
 package com.jinu.commerceauthservice.domain.client;
 
-import com.jinu.commerceauthservice.domain.model.User;
+import com.jinu.commerceauthservice.domain.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserServiceClient {
 
     @GetMapping("/api/user")
-    User getUser(@RequestParam(name = "email") String email);
+    UserDto getUser(@RequestParam(name = "email") String email);
 }

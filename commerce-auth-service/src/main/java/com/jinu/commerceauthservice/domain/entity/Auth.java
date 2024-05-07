@@ -15,15 +15,15 @@ public class Auth extends Timestamped {
     private Long authId;
 
     @Column(nullable = false)
-    private String email;
+    private Long userId;
 
     @Column(nullable = false)
     private String refreshToken;
 
 
     @Builder
-    public Auth(String email, String refreshToken) {
-        this.email = email;
+    public Auth(Long userId, String refreshToken) {
+        this.userId = userId;
         this.refreshToken = refreshToken;
     }
 }

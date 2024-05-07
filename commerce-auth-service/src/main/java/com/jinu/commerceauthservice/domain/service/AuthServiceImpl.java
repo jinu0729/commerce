@@ -20,11 +20,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void saveRefreshToken(String email, String refreshToken) {
+    public void saveRefreshToken(Long userId, String refreshToken) {
         log.info("refreshToken 저장");
 
         Auth auth = Auth.builder()
-                .email(email)
+                .userId(userId)
                 .refreshToken(passwordEncoder.encode(refreshToken))
                 .build();
 
@@ -33,10 +33,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void signOut(String email, HttpServletResponse res) {
+    public void signOut(Long userId, HttpServletResponse res) {
         log.info("로그아웃");
 
-        this.authRepository.deleteByEmail(email);
+        this.authRepository.deleteByUserId(userId);
 
         this.cookieUtil.deleteJwtFromCookie("Authorization", res);
         this.cookieUtil.deleteJwtFromCookie("Refresh-Token", res);

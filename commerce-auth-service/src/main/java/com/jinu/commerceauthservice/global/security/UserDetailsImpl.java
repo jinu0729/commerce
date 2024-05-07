@@ -1,7 +1,7 @@
 package com.jinu.commerceauthservice.global.security;
 
 
-import com.jinu.commerceauthservice.domain.model.User;
+import com.jinu.commerceauthservice.domain.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,20 +9,24 @@ import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final UserDto userDto;
 
-    public UserDetailsImpl(User user) {
-        this.user = user;
+    public UserDetailsImpl(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return userDto.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return userDto.getEmail();
+    }
+
+    public Long getUserId() {
+        return userDto.getUserId();
     }
 
     @Override

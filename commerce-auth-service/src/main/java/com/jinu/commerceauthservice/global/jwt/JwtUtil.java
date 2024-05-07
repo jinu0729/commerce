@@ -39,30 +39,31 @@ public class JwtUtil {
     }
 
     // accessToken 생성
-    public String createAccessToken(String email) {
+    public String createAccessToken(String email, Long userId) {
         int expiredTime = 60 * 60 * 1000;
 
-        return this.createToken(email, expiredTime);
+        return this.createToken(email, userId, expiredTime);
     }
 
     // refreshToken 생성
-    public String createRefreshToken(String email) {
+    public String createRefreshToken(String email, Long userId) {
         int expiredTime = 14 * 24 * 60 * 60 * 1000;
 
-        String refreshToken = this.createToken(email, expiredTime);
+        String refreshToken = this.createToken(email, userId, expiredTime);
 
-        this.authService.saveRefreshToken(email, refreshToken);
+        this.authService.saveRefreshToken(userId, refreshToken);
 
         return refreshToken;
     }
 
     // token 생성
-    public String createToken(String email, int expiredTime) {
+    public String createToken(String email, Long userId, int expiredTime) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(email) // 사용자 식별자값(ID)
+                        .setSubject(email) // 사용자 식별자값(emil)
+                        .claim("userId", userId)
                         // .claim(AUTHORIZATION_KEY, role) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + expiredTime)) // 만료 시간
                         .setIssuedAt(date) // 발급일

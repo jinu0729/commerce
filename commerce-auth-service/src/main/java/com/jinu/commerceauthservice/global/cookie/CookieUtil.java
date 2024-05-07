@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Slf4j(topic = "CookieUtil")
 @Component
@@ -39,23 +42,34 @@ public class CookieUtil {
     }
 
     // HttpServletRequest 에서 Cookie Value : accessToken 가져오기
-    public String getAccessTokenFromRequestCookie(HttpServletRequest req) {
+    public String getAccessTokenFromCookie(HttpServletRequest req) {
         log.info("accessToken 가져오기");
 
         Cookie[] cookies = req.getCookies();
 
         if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Authorization")) {
-                    try {
-                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
-                    } catch (UnsupportedEncodingException e) {
-                        return null;
-                    }
-                }
+            Optional<Cookie> authorizationCookie = findAuthorizationCookie(cookies);
+
+            if (authorizationCookie.isPresent()) {
+                return decodeCookieValue(authorizationCookie.get().getValue());
             }
         }
 
         return null;
+    }
+
+    private Optional<Cookie> findAuthorizationCookie(Cookie[] cookies) {
+        return Arrays.stream(cookies)
+                .filter(cookie -> "Authorization".equals(cookie.getName()))
+                .findFirst();
+    }
+
+    private String decodeCookieValue(String cookieValue) {
+        try {
+            return URLDecoder.decode(cookieValue, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 }

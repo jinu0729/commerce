@@ -17,6 +17,6 @@ public class AuthController {
 
     @DeleteMapping("/sign-out")
     public void signOut(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse res) {
-        this.authService.signOut(userDetails.getUsername(), res);
+        this.authService.signOut(userDetails.getUserId(), res);
     }
 }
