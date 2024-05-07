@@ -41,3 +41,9 @@ project(':commerce-product-service') {
         implementation project(':commerce-common')
     }
 }
+
+project(':commerce-order-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
+}

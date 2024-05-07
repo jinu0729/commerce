@@ -1,7 +1,7 @@
 package com.jinu.commerceauthservice.global.security;
 
 import com.jinu.commerceauthservice.domain.client.UserServiceClient;
-import com.jinu.commerceauthservice.domain.model.User;
+import com.jinu.commerceauthservice.domain.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,8 +15,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userServiceClient.getUser(email);
+        UserDto userDto = userServiceClient.getUser(email);
 
-        return new UserDetailsImpl(user);
+        return new UserDetailsImpl(userDto);
     }
 }
