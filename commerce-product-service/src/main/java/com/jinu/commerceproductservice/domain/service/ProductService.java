@@ -1,6 +1,6 @@
-package com.jinu.commerceproductservice.service;
+package com.jinu.commerceproductservice.domain.service;
 
-import com.jinu.commerceproductservice.entity.Product;
+import com.jinu.commerceproductservice.domain.entity.Product;
 
 import java.util.List;
 

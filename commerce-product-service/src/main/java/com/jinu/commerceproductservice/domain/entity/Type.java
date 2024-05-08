@@ -1,4 +1,4 @@
-package com.jinu.commerceproductservice.entity;
+package com.jinu.commerceproductservice.domain.entity;
 
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
-package com.jinu.commerceproductservice.dto;
+package com.jinu.commerceproductservice.domain.dto;
 
-import com.jinu.commerceproductservice.entity.Product;
+import com.jinu.commerceproductservice.domain.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
