@@ -12,4 +12,6 @@ public interface ProductService {
     Product findById(Long productId);
 
     List<Product> getAllProductsByIdForOrderDetail(List<Long> productIds);
+
+    void updateOrderableStatus(Long productId, Boolean orderable);
 }
