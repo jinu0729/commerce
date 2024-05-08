@@ -1,9 +1,9 @@
-package com.jinu.commerceproductservice.domain.service;
+package com.jinu.commerceproductservice.service;
 
 import com.jinu.commercecommon.exception.CustomException;
 import com.jinu.commercecommon.exception.ErrorCode;
-import com.jinu.commerceproductservice.domain.entity.Product;
-import com.jinu.commerceproductservice.domain.repository.ProductRepository;
+import com.jinu.commerceproductservice.entity.Product;
+import com.jinu.commerceproductservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
-package com.jinu.commerceproductservice.domain.controller;
+package com.jinu.commerceproductservice.controller;
 
 import com.jinu.commercecommon.dto.ResponseBodyDto;
-import com.jinu.commerceproductservice.domain.dto.ProductResponseDto;
-import com.jinu.commerceproductservice.domain.service.ProductService;
+import com.jinu.commerceproductservice.dto.ProductResponseDto;
+import com.jinu.commerceproductservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.jinu.commerceproductservice.global.util;
+package com.jinu.commerceproductservice.util;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

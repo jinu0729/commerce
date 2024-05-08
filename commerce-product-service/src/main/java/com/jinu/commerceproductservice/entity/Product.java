@@ -1,6 +1,6 @@
-package com.jinu.commerceproductservice.domain.entity;
+package com.jinu.commerceproductservice.entity;
 
-import com.jinu.commerceproductservice.global.util.Timestamped;
+import com.jinu.commerceproductservice.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +14,10 @@ public class Product extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Type type;
+
     @Column(nullable = false)
     private String title;
 
@@ -25,7 +29,8 @@ public class Product extends Timestamped {
 
 
     @Builder
-    public Product(String title, Long price, Long stock) {
+    public Product(Type type, String title, Long price, Long stock) {
+        this.type = type;
         this.title = title;
         this.price = price;
         this.stock = stock;
