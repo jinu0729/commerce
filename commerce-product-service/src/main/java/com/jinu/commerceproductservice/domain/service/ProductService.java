@@ -14,4 +14,8 @@ public interface ProductService {
     List<Product> getAllProductsByIdForOrderDetail(List<Long> productIds);
 
     void updateOrderableStatus(Long productId, Boolean orderable);
+
+    void reduceProductStock(Long productId);
+
+    void reduceProductStockRedisson(Long productId);
 }

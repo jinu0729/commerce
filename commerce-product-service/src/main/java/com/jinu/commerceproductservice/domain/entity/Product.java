@@ -1,5 +1,7 @@
 package com.jinu.commerceproductservice.domain.entity;
 
+import com.jinu.commerceproductservice.global.exception.CustomException;
+import com.jinu.commerceproductservice.global.exception.ErrorCode;
 import com.jinu.commerceproductservice.global.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -38,5 +40,14 @@ public class Product extends Timestamped {
         this.price = price;
         this.stock = stock;
         this.IsOrderable = IsOrderable;
+    }
+
+    public void decrease() {
+        validateStock();
+        this.stock -= 1;
+    }
+
+    private void validateStock() {
+        if (stock < 1) throw new CustomException(ErrorCode.OUT_OF_STOCK);
     }
 }

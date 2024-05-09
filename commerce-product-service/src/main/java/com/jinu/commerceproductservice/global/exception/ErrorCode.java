@@ -19,6 +19,7 @@ public enum ErrorCode {
 
     // product
     NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_PRODUCT", "해당상품 없음"),
+    OUT_OF_STOCK(HttpStatus.BAD_REQUEST.value(), "STOCK_IS_EMPTY", "재고 없음"),
 
     // order
     NOT_FOUND_ORDER(HttpStatus.NOT_FOUND.value(), "NOT_FOUND_ORDER", "해당주문 없음"),
@@ -26,8 +27,7 @@ public enum ErrorCode {
     CAN_NOT_RETURN(HttpStatus.BAD_REQUEST.value(), "CAN_NOT_RETURN", "현 상태에서 반품 불가"),
 
     // token
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "EXPIRED_TOKEN", "만료된 토큰")
-    ;
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "EXPIRED_TOKEN", "만료된 토큰");
 
 
     private final Integer status;
