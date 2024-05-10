@@ -11,9 +11,11 @@ public interface OrderService {
 
     Order getOrderByOrderId(Long orderId);
 
-    void changeStatusToCancel(Long orderId);
+    Order cancelOrder(Long orderId);
 
-    void changeStatusToReturn(Long orderId);
+    Order returnOrder(Long orderId);
 
-    void updateOrderStatus();
+    void updateOrderStatusByDaily();
+
+    List<Order> cancelOrderByTenMinutesAgo();
 }

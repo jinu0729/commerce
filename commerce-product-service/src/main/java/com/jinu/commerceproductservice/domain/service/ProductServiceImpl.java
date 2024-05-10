@@ -47,16 +47,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void reduceProductStock(Long productId) {
+    public void decreaseStock(Long productId) {
         Product product = this.findById(productId);
-        product.decrease();
+        product.decreaseStock();
     }
 
     @Override
     @DistributedLock(value = "#productId")
-    public void reduceProductStockRedisson(Long productId) {
+    public void decreaseStockRedisson(Long productId) {
         Product product = this.findById(productId);
-        product.decrease();
+        product.decreaseStock();
+    }
+
+    @Override
+    @DistributedLock(value = "#productId")
+    public void increaseStock(Long productId) {
+        Product product = this.findById(productId);
+        product.increaseStock();
     }
 
     @Override

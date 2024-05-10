@@ -7,10 +7,10 @@ import com.jinu.commerceorderservice.domain.order.entity.Status;
 import com.jinu.commerceorderservice.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j(topic = "OrderServiceImpl")
@@ -19,6 +19,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository repository;
 
+
     @Override
     @Transactional
     public Order createOrder(Long userId) {
@@ -26,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = Order.builder()
                 .userId(userId)
-                .status(Status.ORDER_COMPLETE).build();
+                .status(Status.PAYING).build();
 
         this.repository.save(order);
 
@@ -52,29 +53,29 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void changeStatusToCancel(Long orderId) {
-        log.info("주문취소");
+    public Order cancelOrder(Long orderId) {
+        log.info("해당주문 취소");
 
         Order order = this.getOrderByOrderId(orderId);
 
-        if (order.getStatus() == Status.ORDER_COMPLETE) {
-            order.updateStatus(Status.CANCEL);
-            return;
+        if (order.getStatus() != Status.PAID) {
+            throw new CustomException(ErrorCode.CAN_NOT_CANCEL);
         }
 
-        throw new CustomException(ErrorCode.CAN_NOT_CANCEL);
+        order.updateStatus(Status.CANCELED);
+        return order;
     }
 
     @Override
     @Transactional
-    public void changeStatusToReturn(Long orderId) {
-        log.info("주문취소");
+    public Order returnOrder(Long orderId) {
+        log.info("해당주문 반품");
 
         Order order = this.getOrderByOrderId(orderId);
 
         if (order.getStatus() == Status.IN_DELIVERY || order.getStatus() == Status.DELIVERED) {
-            order.updateStatus(Status.RETURN);
-            return;
+            order.updateStatus(Status.RETURNED);
+            return order;
         }
 
         throw new CustomException(ErrorCode.CAN_NOT_RETURN);
@@ -82,17 +83,33 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    @Scheduled(cron = "@daily")
-    public void updateOrderStatus() {
-        log.info("주문 상태 업데이트");
+    public void updateOrderStatusByDaily() {
+        log.info("배송 상태 업데이트");
 
         List<Order> orders = this.repository.findAll();
 
         for (Order order : orders) {
             switch (order.getStatus()) {
-                case ORDER_COMPLETE -> order.updateStatus(Status.IN_DELIVERY);
+                case PAID -> order.updateStatus(Status.IN_DELIVERY);
                 case IN_DELIVERY -> order.updateStatus(Status.DELIVERED);
             }
         }
+    }
+
+    @Override
+    @Transactional
+    public List<Order> cancelOrderByTenMinutesAgo() {
+        log.info("주문 후 10분 내 미결제 건 취소처리");
+
+        LocalDateTime tenMinutesAgo = LocalDateTime.now().minusMinutes(10);
+
+        List<Order> orderList =
+                this.repository.findOrdersByStatusAndCreatedAtBeforeGivenTime(Status.PAYING, tenMinutesAgo);
+
+        for (Order order : orderList) {
+            order.updateStatus(Status.CANCELED);
+        }
+
+        return orderList;
     }
 }

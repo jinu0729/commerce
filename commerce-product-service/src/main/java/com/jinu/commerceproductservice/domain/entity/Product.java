@@ -42,9 +42,13 @@ public class Product extends Timestamped {
         this.IsOrderable = IsOrderable;
     }
 
-    public void decrease() {
+    public void decreaseStock() {
         validateStock();
         this.stock -= 1;
+    }
+
+    public void increaseStock() {
+        this.stock += 1;
     }
 
     private void validateStock() {

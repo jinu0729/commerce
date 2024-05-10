@@ -49,8 +49,13 @@ public class ProductController {
                 .toList();
     }
 
-    @PatchMapping("/reduction-stock/{productId}")
-    public void reduceProductStock(@PathVariable(name = "productId") Long productId) {
-        this.productService.reduceProductStock(productId);
+    @PatchMapping("/internal/decrease-stock/{productId}")
+    public void decreaseStock(@PathVariable(name = "productId") Long productId) {
+        this.productService.decreaseStock(productId);
+    }
+
+    @PatchMapping("/internal/increase-stock/{productId}")
+    public void increaseStock(@PathVariable(name = "productId") Long productId) {
+        this.productService.increaseStock(productId);
     }
 }
