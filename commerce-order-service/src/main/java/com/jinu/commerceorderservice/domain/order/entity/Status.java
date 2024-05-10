@@ -4,11 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum Status {
-    ORDER_COMPLETE("주문완료"),
+    PAYING("결제중"),
+    PAID("결제완료"),
     IN_DELIVERY("배송중"),
     DELIVERED("배송완료"),
-    CANCEL("주문취소"),
-    RETURN("반품");
+    CANCELED("취소"),
+    RETURNED("반품");
 
     private final String status;
 
