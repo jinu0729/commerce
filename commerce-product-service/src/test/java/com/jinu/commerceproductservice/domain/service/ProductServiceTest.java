@@ -54,12 +54,12 @@ class ProductServiceTest {
     @Test
     @DisplayName("동시에 재고변화 100건 : 분산락 X")
     public void badReducingTest() throws Exception {
-        reducingTest((_no) -> productService.reduceProductStock(productId));
+        reducingTest((_no) -> productService.decreaseStock(productId));
     }
 
     @Test
     @DisplayName("동시에 재고변화 100건 : 분산락 ")
     public void redissonReducingTest() throws Exception {
-        reducingTest((_no) -> productService.reduceProductStockRedisson(productId));
+        reducingTest((_no) -> productService.decreaseStockRedisson(productId));
     }
 }

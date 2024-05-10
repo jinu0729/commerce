@@ -9,13 +9,16 @@ public interface ProductService {
 
     Product getProductById(Long productId);
 
+
     Product findById(Long productId);
 
     List<Product> getAllProductsByIdForOrderDetail(List<Long> productIds);
 
     void updateOrderableStatus(Long productId, Boolean orderable);
 
-    void reduceProductStock(Long productId);
+    void increaseStock(Long productId);
 
-    void reduceProductStockRedisson(Long productId);
+    void decreaseStock(Long productId);
+
+    void decreaseStockRedisson(Long productId);
 }

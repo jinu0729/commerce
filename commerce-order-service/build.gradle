@@ -42,6 +42,7 @@ dependencies {
 
     // OpenFeign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation "io.github.openfeign:feign-okhttp"
 
     // Netty
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.108.Final:osx-aarch_64'

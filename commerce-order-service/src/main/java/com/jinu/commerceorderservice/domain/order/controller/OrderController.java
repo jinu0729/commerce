@@ -14,6 +14,7 @@ import com.jinu.commerceorderservice.global.util.OrderUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class OrderController {
     private final OrderUtil orderUtil;
 
     @PostMapping()
+    @Transactional
     public ResponseEntity<ResponseBodyDto> createOrder(@RequestBody List<OrderRequestDto> requestDtoList,
                                                        HttpServletRequest req) {
         Long userId = this.orderUtil.getUserIdFromToken(req);
@@ -36,10 +38,15 @@ public class OrderController {
         Order order = this.orderService.createOrder(userId);
         this.orderDetailService.createOrderDetail(order, requestDtoList);
 
+        for (OrderRequestDto requestDto : requestDtoList) {
+            productServiceClient.decreaseStock(requestDto.getProductId());
+        }
+
         return ResponseEntity.ok(ResponseBodyDto.success("주문완료"));
     }
 
     @GetMapping()
+    @Transactional(readOnly = true)
     public ResponseEntity<ResponseBodyDto> getAllOrders(HttpServletRequest req) {
         Long userId = this.orderUtil.getUserIdFromToken(req);
 
@@ -50,18 +57,19 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
+    @Transactional(readOnly = true)
     public ResponseEntity<ResponseBodyDto> getOrderDetailsByOrder(@PathVariable(name = "orderId") Long orderId) {
         Order order = this.orderService.getOrderByOrderId(orderId);
 
         List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailsByOrder(order);
-        List<Long> productIdList = new ArrayList<>();
+        List<Long> productIds = new ArrayList<>();
 
         for (OrderDetail orderDetail : orderDetailList) {
-            productIdList.add(orderDetail.getProductId());
+            productIds.add(orderDetail.getProductId());
         }
 
         List<ProductResponseDto> productResponseDtoList =
-                this.productServiceClient.getProductsByIdForOrderDetails(productIdList);
+                this.productServiceClient.getProductsByIdForOrderDetails(productIds);
 
         List<OrderDetailResponseDto> orderDetailResponseDtoList =
                 OrderDetailResponseDto.createOrderDetailList(orderDetailList, productResponseDtoList);
@@ -70,15 +78,29 @@ public class OrderController {
     }
 
     @PatchMapping("/cancel/{orderId}")
+    @Transactional
     public ResponseEntity<ResponseBodyDto> cancelOrder(@PathVariable(name = "orderId") Long orderId) {
-        this.orderService.changeStatusToCancel(orderId);
+        Order order = this.orderService.cancelOrder(orderId);
+
+        List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailsByOrder(order);
+
+        for (OrderDetail orderDetail : orderDetailList) {
+            this.productServiceClient.increaseStock(orderDetail.getProductId());
+        }
 
         return ResponseEntity.ok(ResponseBodyDto.success("취소완료"));
     }
 
     @PatchMapping("/return/{orderId}")
+    @Transactional
     public ResponseEntity<ResponseBodyDto> returnOrder(@PathVariable(name = "orderId") Long orderId) {
-        this.orderService.changeStatusToReturn(orderId);
+        Order order = this.orderService.returnOrder(orderId);
+
+        List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailsByOrder(order);
+
+        for (OrderDetail orderDetail : orderDetailList) {
+            this.productServiceClient.increaseStock(orderDetail.getProductId());
+        }
 
         return ResponseEntity.ok(ResponseBodyDto.success("반품완료"));
     }
