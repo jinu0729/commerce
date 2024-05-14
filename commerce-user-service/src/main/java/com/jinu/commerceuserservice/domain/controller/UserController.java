@@ -2,6 +2,8 @@ package com.jinu.commerceuserservice.domain.controller;
 
 import com.jinu.commercecommon.dto.ResponseBodyDto;
 import com.jinu.commerceuserservice.domain.dto.SignUpRequestDto;
+import com.jinu.commerceuserservice.domain.dto.UpdateInfoRequestDto;
+import com.jinu.commerceuserservice.domain.dto.UpdatePasswordRequestDto;
 import com.jinu.commerceuserservice.domain.entity.User;
 import com.jinu.commerceuserservice.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -40,15 +42,13 @@ public class UserController {
         return userService.checkVerifyCodeForJoin(email, code);
     }
 
- /*   @PutMapping("/update-info")
-    public ResponseEntity<ResponseBodyDto> updateByInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                        @RequestBody UpdateInfoRequestDto requestDto) {
+    @PutMapping("/update-info")
+    public ResponseEntity<ResponseBodyDto> updateByInfo(@RequestBody UpdateInfoRequestDto requestDto) {
         return userService.updateByInfo(userDetails, requestDto);
     }
 
     @PutMapping("/update-password")
-    public ResponseEntity<ResponseBodyDto> updateByPassword(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                            @RequestBody UpdatePasswordRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> updateByPassword(@RequestBody UpdatePasswordRequestDto requestDto) {
         return userService.updateByPassword(userDetails, requestDto);
-    }*/
+    }
 }

@@ -5,6 +5,8 @@ import com.jinu.commercecommon.exception.CustomException;
 import com.jinu.commercecommon.exception.ErrorCode;
 import com.jinu.commercecommon.redis.RedisService;
 import com.jinu.commerceuserservice.domain.dto.SignUpRequestDto;
+import com.jinu.commerceuserservice.domain.dto.UpdateInfoRequestDto;
+import com.jinu.commerceuserservice.domain.dto.UpdatePasswordRequestDto;
 import com.jinu.commerceuserservice.domain.entity.User;
 import com.jinu.commerceuserservice.domain.repository.UserRepository;
 import com.jinu.commerceuserservice.global.email.service.EmailService;
@@ -70,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<ResponseBodyDto> checkVerifyCodeForJoin(String email, String code) {
         log.info("인증코드 검증");
 
@@ -89,9 +92,9 @@ public class UserServiceImpl implements UserService {
         );
     }
 
- /*   @Override
+    @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> updateByInfo(UserDetailsImpl userDetails, UpdateInfoRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> updateByInfo(UpdateInfoRequestDto requestDto) {
         log.info("개인정보 업데이트");
 
         User user = this.userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
@@ -104,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> updateByPassword(UserDetailsImpl userDetails, UpdatePasswordRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> updateByPassword(UpdatePasswordRequestDto requestDto) {
         log.info("패스워드 업데이트");
 
         User user = this.userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
@@ -115,7 +118,7 @@ public class UserServiceImpl implements UserService {
         user.updateByPassword(passwordEncoder.encode(requestDto.getNewPassword()));
 
         return ResponseEntity.ok(ResponseBodyDto.success("패스워드 업데이트 완료"));
-    }*/
+    }
 
     @Override
     @Transactional(readOnly = true)
