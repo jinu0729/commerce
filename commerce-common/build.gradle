@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.jinu'
+version = 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.11.0-M1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // SpringBoot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Lombok
+    testImplementation 'org.projectlombok:lombok:1.18.32'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,48 +1,43 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.4'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'com.jinu'
-version = '0.0.1-SNAPSHOT'
+// 하위 프로젝트에 대한 설정
+subprojects {
+    // 하위 프로젝트의 그룹과 버전 설정
+    group = 'com.jinu'
+    version = '0.0.1-SNAPSHOT'
 
-java {
-	sourceCompatibility = '21'
+    // 소스 호환성 설정
+    sourceCompatibility = '21'
+
+    repositories {
+        // Maven Central 저장소 사용
+        mavenCentral()
+    }
+
+    // 플러그인 적용
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+project(':commerce-auth-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
 }
 
-repositories {
-	mavenCentral()
+project(':commerce-user-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.projectlombok:lombok:1.18.26'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-
-
-	// JWT
-	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
-	// redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
+project(':commerce-order-service') {
+    dependencies {
+        implementation project(':commerce-common')
+    }
 }
