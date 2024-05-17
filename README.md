@@ -1,17 +1,11 @@
 # 🛒 Commerce project
 
-## 📚 Overview
-
----
-
 commerce 프로젝트는 전자상거래 플랫폼을 구축하기 위한 자바 기반의 웹 애플리케이션입니다. 이 프로젝트는 멀티 모듈로 이루어져 있으며, 회원가입, 주문 처리, 예약 상품구매 등 전자상거래의 핵심 기능을 포함하고
 있습니다.
 
 <br>
 
-## 🛠️ Tech Stack
-
----
+# 🛠️ Tech Stack
 
 ![spring boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 ![spring security](https://img.shields.io/badge/-Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
@@ -28,9 +22,7 @@ commerce 프로젝트는 전자상거래 플랫폼을 구축하기 위한 자바
 
 <br>
 
-## ✨ Feature
-
----
+# ✨ Feature
 
 - Spring Security 및 JWT를 활용한 사용자 인증 및 인가
 - Google SMTP를 활용한 사용자 e-mail 인증
@@ -39,11 +31,9 @@ commerce 프로젝트는 전자상거래 플랫폼을 구축하기 위한 자바
 
 <br>
 
-## 🏃‍♂️‍➡️ Run
+# 🏃‍♂️‍➡️ Run
 
----
-
-### 로컬 실행
+## 로컬 실행
 
 1. 저장소 클론:
     ```sh
@@ -59,9 +49,7 @@ commerce 프로젝트는 전자상거래 플랫폼을 구축하기 위한 자바
     ./gradlew bootRun
     ```
 
-<br>
-
-### Docker를 이용한 실행
+## Docker를 이용한 실행
 
 1. Docker Compose 실행:
     ```sh
@@ -70,9 +58,6 @@ commerce 프로젝트는 전자상거래 플랫폼을 구축하기 위한 자바
 
 <br>
 
-## 📑 Docs
-
----
+# 📑 Docs
 
 https://commerce.gitbook.io/docs/
-
