@@ -35,13 +35,13 @@ cd commerce
 
 ## 🏗 Architecture
 
-![Architecture](img_2.png)
+![Architecture](https://github.com/jinu0729/commerce/assets/108972941/d963ce0e-cf67-441f-8c64-28fb4ba9b9d2)
 
 <br>
 
 ## 🗓️ ERD
 
-![ERD](img.png)
+![ERD](https://github.com/jinu0729/commerce/assets/108972941/260f9765-6f2a-4c4c-ae9c-a33fe1ae461a)
 
 <br>
 
