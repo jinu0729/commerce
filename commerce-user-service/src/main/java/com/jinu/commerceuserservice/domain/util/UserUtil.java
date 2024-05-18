@@ -1,4 +1,4 @@
-package com.jinu.commerceuserservice.global.util;
+package com.jinu.commerceuserservice.domain.util;
 
 import com.jinu.commerceuserservice.global.cookie.CookieUtil;
 import com.jinu.commerceuserservice.global.jwt.JwtUtil;
