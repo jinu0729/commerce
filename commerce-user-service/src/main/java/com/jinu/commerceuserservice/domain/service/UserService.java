@@ -5,6 +5,7 @@ import com.jinu.commerceuserservice.domain.dto.SignUpRequestDto;
 import com.jinu.commerceuserservice.domain.dto.UpdateInfoRequestDto;
 import com.jinu.commerceuserservice.domain.dto.UpdatePasswordRequestDto;
 import com.jinu.commerceuserservice.domain.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
@@ -14,9 +15,9 @@ public interface UserService {
 
     ResponseEntity<ResponseBodyDto> checkVerifyCodeForJoin(String email, String code);
 
-    ResponseEntity<ResponseBodyDto> updateByInfo(UpdateInfoRequestDto requestDto);
+    ResponseEntity<ResponseBodyDto> updateByInfo(HttpServletRequest req, UpdateInfoRequestDto requestDto);
 
-    ResponseEntity<ResponseBodyDto> updateByPassword(UpdatePasswordRequestDto requestDto);
+    ResponseEntity<ResponseBodyDto> updateByPassword(HttpServletRequest req, UpdatePasswordRequestDto requestDto);
 
     void checkDuplicateByEmail(String mail);
 

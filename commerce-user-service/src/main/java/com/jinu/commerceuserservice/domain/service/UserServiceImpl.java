@@ -10,6 +10,8 @@ import com.jinu.commerceuserservice.domain.dto.UpdatePasswordRequestDto;
 import com.jinu.commerceuserservice.domain.entity.User;
 import com.jinu.commerceuserservice.domain.repository.UserRepository;
 import com.jinu.commerceuserservice.global.email.service.EmailService;
+import com.jinu.commerceuserservice.global.util.UserUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
     private final RedisService redisService;
     private final PasswordEncoder passwordEncoder;
+    private final UserUtil userUtil;
 
     @Value("${spring.mail.auth-code-expiration-millis}")
     private Long authCodeExpirationMillis;
@@ -94,10 +97,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> updateByInfo(UpdateInfoRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> updateByInfo(HttpServletRequest req, UpdateInfoRequestDto requestDto) {
         log.info("개인정보 업데이트");
 
-        User user = this.userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
+        Long userId = this.userUtil.getUserIdFromToken(req);
+
+        User user = this.userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         user.updateByInfo(requestDto);
@@ -107,10 +112,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseBodyDto> updateByPassword(UpdatePasswordRequestDto requestDto) {
+    public ResponseEntity<ResponseBodyDto> updateByPassword(HttpServletRequest req, UpdatePasswordRequestDto requestDto) {
         log.info("패스워드 업데이트");
 
-        User user = this.userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
+        Long userId = this.userUtil.getUserIdFromToken(req);
+
+        User user = this.userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         this.validatePassword(requestDto.getOgPassword(), user.getPassword());
