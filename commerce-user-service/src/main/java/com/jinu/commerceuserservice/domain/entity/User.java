@@ -1,7 +1,7 @@
 package com.jinu.commerceuserservice.domain.entity;
 
 import com.jinu.commerceuserservice.domain.dto.UpdateInfoRequestDto;
-import com.jinu.commerceuserservice.global.util.Timestamped;
+import com.jinu.commerceuserservice.domain.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

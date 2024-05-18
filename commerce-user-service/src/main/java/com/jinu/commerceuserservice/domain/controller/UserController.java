@@ -1,11 +1,13 @@
 package com.jinu.commerceuserservice.domain.controller;
 
 import com.jinu.commercecommon.dto.ResponseBodyDto;
+import com.jinu.commerceuserservice.domain.dto.EmailRequestDto;
 import com.jinu.commerceuserservice.domain.dto.SignUpRequestDto;
 import com.jinu.commerceuserservice.domain.dto.UpdateInfoRequestDto;
 import com.jinu.commerceuserservice.domain.dto.UpdatePasswordRequestDto;
 import com.jinu.commerceuserservice.domain.entity.User;
 import com.jinu.commerceuserservice.domain.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,37 +20,44 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<ResponseBodyDto> signUpUser(@RequestBody SignUpRequestDto requestDto) {
-        return userService.signUpUser(requestDto);
+        this.userService.signUpUser(requestDto);
+
+        return ResponseEntity.ok(ResponseBodyDto.success("가입완료"));
     }
 
     @PostMapping("/verify-email")
-    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody SignUpRequestDto requestDto) {
-        return userService.sendVerifyEmailForJoin(requestDto.getEmail());
-    }
+    public ResponseEntity<ResponseBodyDto> sendVerifyEmailForJoin(@RequestBody EmailRequestDto requestDto) {
+        this.userService.sendVerifyEmailForJoin(requestDto.getEmail());
 
-    @GetMapping()
-    public User getUser(@RequestParam(value = "email") String email) {
-        return userService.getUser(email);
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+        return ResponseEntity.ok(ResponseBodyDto.success("발송완료"));
     }
 
     @GetMapping("/verify-code")
     public ResponseEntity<ResponseBodyDto> checkVerifyCodeForJoin(@RequestParam(value = "email") String email,
                                                                   @RequestParam(value = "code") String code) {
-        return userService.checkVerifyCodeForJoin(email, code);
+        this.userService.checkVerifyCodeForJoin(email, code);
+
+        return ResponseEntity.ok(ResponseBodyDto.success("인증완료"));
     }
 
     @PutMapping("/update-info")
-    public ResponseEntity<ResponseBodyDto> updateByInfo(@RequestBody UpdateInfoRequestDto requestDto) {
-        return userService.updateByInfo(userDetails, requestDto);
+    public ResponseEntity<ResponseBodyDto> updateByInfo(HttpServletRequest req,
+                                                        @RequestBody UpdateInfoRequestDto requestDto) {
+        this.userService.updateByInfo(req, requestDto);
+
+        return ResponseEntity.ok(ResponseBodyDto.success("개인정보 업데이트 완료"));
     }
 
     @PutMapping("/update-password")
-    public ResponseEntity<ResponseBodyDto> updateByPassword(@RequestBody UpdatePasswordRequestDto requestDto) {
-        return userService.updateByPassword(userDetails, requestDto);
+    public ResponseEntity<ResponseBodyDto> updateByPassword(HttpServletRequest req,
+                                                            @RequestBody UpdatePasswordRequestDto requestDto) {
+        this.userService.updateByPassword(req, requestDto);
+
+        return ResponseEntity.ok(ResponseBodyDto.success("패스워드 업데이트 완료"));
+    }
+
+    @GetMapping("/internal")
+    public User getUserByEmail(@RequestParam(value = "email") String email) {
+        return this.userService.getUserByEmail(email);
     }
 }
