@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "commerce-user-service")
 public interface UserServiceClient {
 
-    @GetMapping("/api/user")
+    @GetMapping("/api/user/internal")
     UserDto getUser(@RequestParam(name = "email") String email);
 }
