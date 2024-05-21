@@ -27,7 +27,7 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseEntity<ResponseBodyDto> getProductById(@PathVariable(name = "productId") Long productId) {
         ProductResponseDto responseDto =
-                ProductResponseDto.createProductResponseDtoIntoProduct(this.productService.getProductById(productId));
+                ProductResponseDto.createProductResponseDtoIntoProduct(this.productService.getProductByProductId(productId));
 
         return ResponseEntity.ok(ResponseBodyDto.successWithResult("상세조회 완료", responseDto));
     }
@@ -36,7 +36,7 @@ public class ProductController {
     public ResponseEntity<ResponseBodyDto> getProductStockById(@PathVariable(name = "productId") Long productId) {
         ProductResponseDto responseDto =
                 ProductResponseDto.builder()
-                        .stock(this.productService.getProductById(productId).getStock())
+                        .stock(this.productService.getProductByProductId(productId).getStock())
                         .build();
 
         return ResponseEntity.ok(ResponseBodyDto.successWithResult("재고조회 완료", responseDto));

@@ -1,24 +1,26 @@
 package com.jinu.commerceproductservice.domain.service;
 
 import com.jinu.commerceproductservice.domain.entity.Product;
+import com.jinu.commerceproductservice.domain.entity.Type;
 
 import java.util.List;
 
 public interface ProductService {
     List<Product> getAllProducts();
 
-    Product getProductById(Long productId);
-
-
-    Product findById(Long productId);
+    Product getProductByProductId(Long productId);
 
     List<Product> getAllProductsByIdForOrderDetail(List<Long> productIds);
-
-    void updateOrderableStatus(Long productId, Boolean orderable);
-
-    void increaseStock(Long productId);
 
     void decreaseStock(Long productId);
 
     void decreaseStockRedisson(Long productId);
+
+    void increaseStock(Long productId);
+
+    void updateIsActive(Type type, Boolean isActive);
+
+    Product findProductByProductId(Long productId);
+
+    List<Product> findProductByType(Type type);
 }
