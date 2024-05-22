@@ -1,6 +1,7 @@
 package com.jinu.commerceproductservice.domain.service;
 
 import com.jinu.commerceproductservice.domain.entity.Product;
+import com.jinu.commerceproductservice.domain.entity.Type;
 import com.jinu.commerceproductservice.domain.repository.ProductRepository;
 import com.jinu.commerceproductservice.global.exception.CustomException;
 import com.jinu.commerceproductservice.global.exception.ErrorCode;
@@ -27,10 +28,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long productId) {
+    @Transactional(readOnly = true)
+    public Product getProductByProductId(Long productId) {
         log.info("상품 상세조회");
 
-        return this.findById(productId);
+        return this.findProductByProductId(productId);
     }
 
     @Override
@@ -41,34 +43,55 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateOrderableStatus(Long productId, Boolean orderable) {
-
-    }
-
-    @Override
     @Transactional
     public void decreaseStock(Long productId) {
-        Product product = this.findById(productId);
+        log.info("상품 재고 감소");
+
+        Product product = this.findProductByProductId(productId);
         product.decreaseStock();
     }
 
     @Override
     @DistributedLock(value = "#productId")
     public void decreaseStockRedisson(Long productId) {
-        Product product = this.findById(productId);
+        log.info("상품 재고 감소");
+
+        Product product = this.findProductByProductId(productId);
         product.decreaseStock();
     }
 
     @Override
     @DistributedLock(value = "#productId")
     public void increaseStock(Long productId) {
-        Product product = this.findById(productId);
+        log.info("상품 재고 증가");
+
+        Product product = this.findProductByProductId(productId);
         product.increaseStock();
     }
 
     @Override
-    public Product findById(Long productId) {
-        return this.productRepository.findById(1L)
+    @Transactional
+    public void updateIsActive(Type type, Boolean isActive) {
+        log.info("상품 활성화 업데이트");
+
+        List<Product> products = this.findProductByType(type);
+        products.forEach(product -> product.updateIsActiveStatus(isActive));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Product findProductByProductId(Long productId) {
+        log.info("productId 로 상품조회");
+
+        return this.productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PRODUCT));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> findProductByType(Type type) {
+        log.info("type으로 상품조회");
+
+        return this.productRepository.findByType(type);
     }
 }

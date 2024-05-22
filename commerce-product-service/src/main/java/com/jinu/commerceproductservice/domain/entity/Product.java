@@ -1,7 +1,5 @@
 package com.jinu.commerceproductservice.domain.entity;
 
-import com.jinu.commerceproductservice.global.exception.CustomException;
-import com.jinu.commerceproductservice.global.exception.ErrorCode;
 import com.jinu.commerceproductservice.global.util.Timestamped;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -30,20 +28,19 @@ public class Product extends Timestamped {
     private Long stock;
 
     @Column(nullable = false)
-    private Boolean IsOrderable;
+    private Boolean isActive;
 
 
     @Builder
-    public Product(Type type, String title, Long price, Long stock, Boolean IsOrderable) {
+    public Product(Type type, String title, Long price, Long stock, Boolean isActive) {
         this.type = type;
         this.title = title;
         this.price = price;
         this.stock = stock;
-        this.IsOrderable = IsOrderable;
+        this.isActive = isActive;
     }
 
     public void decreaseStock() {
-        validateStock();
         this.stock -= 1;
     }
 
@@ -51,7 +48,7 @@ public class Product extends Timestamped {
         this.stock += 1;
     }
 
-    private void validateStock() {
-        if (stock < 1) throw new CustomException(ErrorCode.OUT_OF_STOCK);
+    public void updateIsActiveStatus(Boolean isActive) {
+        this.isActive = isActive;
     }
 }
